@@ -3175,3 +3175,52 @@ async function sinhLaiTruongThongTin(req) {
 }
 
 module.exports = { router, validateManifest, findMissingLanguageCoverage, dongBoMedia, runIntegrityCheck, sinhLaiTruongThongTin };
+
+// ==================== ẢNH CHÀO MỪNG (museum.welcomeImage / welcomeAccentImage) ====================
+// Màn hình đầu tiên của app. Trước đây chỉ đặt tay vào content/images/welcome/ — mà thư mục
+// này bị .gitignore chặn, nên server clone từ git về là thiếu ảnh → /version.json trả 503.
+// Tải lên từ tab "Giao diện ứng dụng" (public/anhChaoMung.js). Cả hai ảnh là BẮT BUỘC với app
+// (validateManifest kiểm), nên chỉ gửi ảnh chính mà chưa có ảnh phụ thì dùng luôn ảnh chính.
+const WELCOME_MAIN = 'images/welcome/main.jpg';
+const WELCOME_ACCENT = 'images/welcome/accent.jpg';
+
+router.get('/welcome-images', (req, res) => {
+  try {
+    const m = readManifestCached();
+    const co = (rel) => Boolean(rel) && fs.existsSync(path.join(CONTENT_DIR, rel));
+    const main = m.museum?.welcomeImage || null;
+    const accent = m.museum?.welcomeAccentImage || null;
+    res.json({ main, accent, mainExists: co(main), accentExists: co(accent) });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.post('/welcome-images', upload.fields([{ name: 'main', maxCount: 1 }, { name: 'accent', maxCount: 1 }]), async (req, res) => {
+  try {
+    const files = req.files || {};
+    if (!files.main && !files.accent) throw new HttpError(400, 'Chưa chọn ảnh nào');
+    await withHistory(req, { action: 'welcome.update', summary: 'Đổi ảnh chào mừng' }, async () => {
+      const manifest = readManifest();
+      manifest.museum = manifest.museum || {};
+      let mainBuf = null;
+      if (files.main) {
+        mainBuf = await toJpeg(files.main[0].buffer, files.main[0].originalname);
+        saveFile(WELCOME_MAIN, mainBuf);
+        manifest.museum.welcomeImage = WELCOME_MAIN;
+      }
+      if (files.accent) {
+        saveFile(WELCOME_ACCENT, await toJpeg(files.accent[0].buffer, files.accent[0].originalname));
+        manifest.museum.welcomeAccentImage = WELCOME_ACCENT;
+      } else if (mainBuf && !fs.existsSync(path.join(CONTENT_DIR, manifest.museum.welcomeAccentImage || WELCOME_ACCENT))) {
+        saveFile(WELCOME_ACCENT, mainBuf);
+        manifest.museum.welcomeAccentImage = WELCOME_ACCENT;
+      }
+      bumpVersion(manifest);
+      writeManifest(manifest);
+      res.json({ main: manifest.museum.welcomeImage, accent: manifest.museum.welcomeAccentImage });
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ error: err.message });
+  }
+});
