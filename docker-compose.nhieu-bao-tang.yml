@@ -1,0 +1,51 @@
+# Chạy NHIỀU bảo tàng trên một máy bằng Docker: cùng một image, mỗi bảo tàng một
+# container và một thư mục dữ liệu riêng. Xem NHIEU_BAO_TANG.md.
+#
+# Tạo thư mục dữ liệu cho từng bảo tàng TRƯỚC (sinh .env, tài khoản Chủ, manifest):
+#   node scripts/tao-bao-tang.js baotang-a --ten "Bảo tàng A" --cong 3001 --thu-muc ./bao-tang/baotang-a
+# Rồi:  docker compose -f docker-compose.nhieu-bao-tang.yml up -d --build
+#
+# Thêm bảo tàng = chép một khối service bên dưới, đổi 3 chỗ: tên service, cổng ngoài,
+# thư mục. LƯU Ý: thư mục dữ liệu phải thuộc uid 1000 (người dùng "node" trong image):
+#   chown -R 1000:1000 ./bao-tang/<mã>
+
+x-beacon: &beacon
+  build:
+    context: .
+  image: beacon-cms:local
+  restart: unless-stopped
+  init: true
+  environment:
+    DATA_DIR: /data
+    # Trong container luôn nghe cổng 3000 trên mọi giao diện; cổng riêng của từng bảo
+    # tàng là cổng NGOÀI ở "ports". Hai biến này thắng giá trị trong .env của bảo tàng.
+    PORT: "3000"
+    BIND_HOST: 0.0.0.0
+    # Phục vụ HTTP trực tiếp. Đặt reverse proxy có TLS phía trước rồi mới đổi sang
+    # production (xem DOCKER.md).
+    NODE_ENV: development
+
+services:
+  baotang-a:
+    <<: *beacon
+    container_name: beacon-baotang-a
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./bao-tang/baotang-a:/data
+
+  baotang-b:
+    <<: *beacon
+    container_name: beacon-baotang-b
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./bao-tang/baotang-b:/data
+
+  baotang-c:
+    <<: *beacon
+    container_name: beacon-baotang-c
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./bao-tang/baotang-c:/data

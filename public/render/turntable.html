@@ -1,0 +1,26 @@
+<!doctype html>
+<!--
+  TRANG DỰNG DẢI ẢNH XOAY 360 — do render/turntable.js điều khiển, KHÔNG dành
+  cho người. Máy chủ (turntableRenderer.js) mở trang này bằng Chrome headless.
+
+  Học từ museum_server/serve/render-frame.html, có 3 thay đổi có chủ ý — xem
+  chú thích đầu file turntable.js bên cạnh.
+-->
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>WAIT</title>
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; overflow: hidden; }
+  /* Nen TRONG SUOT: dai anh duoc ghep len nen cua app luc chay, ma app co hai
+     theme sang/toi. Nuong mot mau nen vao anh la khoa dai anh vao mot theme. */
+  model-viewer { display: block; background-color: transparent; --poster-color: transparent; }
+</style>
+<script type="module" src="/vendor/model-viewer/model-viewer.min.js"></script>
+<script type="module" src="turntable.js"></script>
+</head>
+<body>
+  <model-viewer id="mv" disable-zoom disable-pan disable-tap interaction-prompt="none"
+    shadow-intensity="0" exposure="1" loading="eager" reveal="auto"></model-viewer>
+</body>
+</html>

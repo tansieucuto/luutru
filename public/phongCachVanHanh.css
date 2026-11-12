@@ -1,0 +1,146 @@
+/* =====================================================================
+   PHONG CÁCH "VẬN HÀNH" — bảng điều khiển kiểu SIEM/quản trị (cảm hứng từ
+   các dashboard như Wazuh / OpenSearch Dashboards): nền sáng, một màu xanh
+   chủ đạo, phẳng, bo góc nhỏ, thông tin dày. Màu chỉ để báo trạng thái.
+
+   Nạp SAU admin.css. Chỉ có hiệu lực khi <html data-palette="ops">, nên các
+   bảng màu cũ (vàng, xanh ngọc...) vẫn dùng được nguyên như trước.
+   Không dùng logo/biểu tượng/tên của sản phẩm nào — chỉ học phong cách.
+   ===================================================================== */
+
+:root:is([data-palette="ops"],[data-palette="stage"]) {
+  --bg: #f1f4fa;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --border: #d3dae6;
+  --gold: #0077cc;          /* màu chủ đạo (tên biến giữ nguyên để không phải sửa admin.css) */
+  --gold2: #005ea3;
+  --accent-text: #0061a6;   /* 6.3:1 trên trắng */
+  --text: #343741;
+  --muted: #5f6573;         /* 5.9:1 trên trắng */
+  --green2: #017d73;
+  --red2: #bd271e;
+  --on-accent: #ffffff;
+  --accent-soft: rgba(0, 119, 204, 0.08);
+  --accent-soft-2: rgba(0, 119, 204, 0.14);
+  --nav-bg: #f7f8fc;
+  --font-head: 'Be Vietnam Pro', sans-serif;
+  --sidebar-w: 236px;
+  --r: 6px;
+  color-scheme: light;
+}
+
+:root:is([data-palette="ops"],[data-palette="stage"])[data-theme="dark"] {
+  --bg: #141519;
+  --surface: #1d1e24;
+  --card: #25262e;
+  --border: #343741;
+  --gold: #36a2ef;
+  --gold2: #6bb8f2;
+  --accent-text: #6bb8f2;
+  --text: #dfe5ef;
+  --muted: #98a2b3;
+  --green2: #7de2d1;
+  --red2: #f86b63;
+  --on-accent: #0b1622;
+  --accent-soft: rgba(54, 162, 239, 0.10);
+  --accent-soft-2: rgba(54, 162, 239, 0.18);
+  --nav-bg: #1a1b20;
+  color-scheme: dark;
+}
+
+/* ---------- Nền tảng ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) body { font-size: 14px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) ::selection { background: var(--accent-soft-2); }
+:root:is([data-palette="ops"],[data-palette="stage"]) h1,
+:root:is([data-palette="ops"],[data-palette="stage"]) h2,
+:root:is([data-palette="ops"],[data-palette="stage"]) h3,
+:root:is([data-palette="ops"],[data-palette="stage"]) h4 { letter-spacing: 0; font-weight: 600; }
+
+/* ---------- Thanh bên: phẳng, mục đang chọn có vạch xanh bên trái ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) .sidebar {
+  background: var(--nav-bg); padding: 16px 12px; gap: 18px;
+}
+:root:is([data-palette="ops"],[data-palette="stage"]) .brand { padding: 4px 8px 12px; border-bottom: 1px solid var(--border); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .brand-mark {
+  width: 32px; height: 32px; border-radius: var(--r);
+  background: var(--gold); color: var(--on-accent); font-size: 16px;
+}
+:root:is([data-palette="ops"],[data-palette="stage"]) .brand-name { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: 0; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .nav-label { font-size: 11px; font-weight: 600; letter-spacing: .6px; padding: 6px 12px 4px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .nav-group { gap: 2px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .nav-item {
+  border-radius: var(--r); padding: 8px 12px; font-size: 14px; color: var(--text);
+  transition: background .15s, color .15s;
+}
+:root:is([data-palette="ops"],[data-palette="stage"]) .nav-item .hover-circle { display: none; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .nav-item:hover { background: var(--accent-soft); color: var(--accent-text); transform: none; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .nav-item.active {
+  background: var(--accent-soft-2); color: var(--accent-text);
+  box-shadow: inset 3px 0 0 var(--gold);
+}
+:root:is([data-palette="ops"],[data-palette="stage"]) .sidebar-footer { border-radius: var(--r); }
+
+/* ---------- Thanh trên: mỏng, bỏ dải hoa văn trang trí ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) .topbar { padding: 10px 24px; box-shadow: 0 1px 2px rgba(0, 0, 0, .04); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .topbar-watermark { visibility: hidden; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .page-title { font-size: 20px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .crumb-trail .current { font-weight: 500; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .icon-btn {
+  width: 34px; height: 34px; border-radius: var(--r);
+}
+:root:is([data-palette="ops"],[data-palette="stage"]) .icon-btn:hover { transform: none; box-shadow: none; background: var(--accent-soft); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .search-box { border-radius: var(--r); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .search-box:focus-within { box-shadow: 0 0 0 2px var(--accent-soft-2); }
+
+/* ---------- Thẻ / khung: phẳng, viền mảnh, không nhấc lên khi rê chuột ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) .card {
+  border-radius: var(--r); box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+:root:is([data-palette="ops"],[data-palette="stage"]) .card:hover { transform: none; border-color: var(--border); box-shadow: 0 1px 2px rgba(0, 0, 0, .05); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .panel { padding: 18px 20px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .panel-title { font-size: 16px; font-weight: 600; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .stat-card { padding: 16px 18px; gap: 8px; border-top: 3px solid var(--gold); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .stat-value { font-family: var(--font-main); font-size: 26px; color: var(--text); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .zone-card { border-radius: var(--r); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .exhibit-row:hover { background: var(--accent-soft); }
+
+/* ---------- Nút ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) .btn { border-radius: var(--r); padding: 8px 16px; transition: background .15s, border-color .15s; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .btn:hover { transform: none; box-shadow: none; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .btn-primary { color: var(--on-accent); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .btn-primary:hover { background: var(--gold2); border-color: var(--gold2); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .btn-danger:hover { background: rgba(189, 39, 30, .08); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .range-btn.active,
+:root:is([data-palette="ops"],[data-palette="stage"]) .search-tab-btn.active { color: var(--on-accent); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .icon-action { border-radius: var(--r); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .icon-action:hover { transform: none; background: var(--accent-soft); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .modal-close:hover { transform: none; }
+
+/* ---------- Ô nhập ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) .form-control,
+:root:is([data-palette="ops"],[data-palette="stage"]) select.form-control { border-radius: var(--r); padding: 8px 11px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .form-control:focus { box-shadow: 0 0 0 2px var(--accent-soft-2); }
+
+/* ---------- Hộp thoại + bảng chọn ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) .modal-card { border-radius: 8px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .modal-title { font-size: 21px; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .palette-panel,
+:root:is([data-palette="ops"],[data-palette="stage"]) .notif-panel { border-radius: var(--r); box-shadow: 0 8px 24px rgba(0, 0, 0, .14); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .palette-swatch:hover { background: var(--accent-soft); }
+:root:is([data-palette="ops"],[data-palette="stage"]) .palette-swatch.active { background: var(--accent-soft-2); }
+
+/* ---------- Huy hiệu trạng thái: dạng nhãn vuông kiểu dashboard ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) .status-badge { border-radius: 3px; border: 0; font-weight: 600; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .status-green { color: #fff; background: #017d73; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .status-amber { color: #3f2b00; background: #f5a700; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .status-red   { color: #fff; background: #bd271e; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .status-blue  { color: #fff; background: #006bb8; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .status-gray  { color: #343741; background: #d3dae6; }
+
+/* ---------- Thanh cuộn ---------- */
+:root:is([data-palette="ops"],[data-palette="stage"]) ::-webkit-scrollbar-thumb { background: #c2c9d6; }
+:root:is([data-palette="ops"],[data-palette="stage"])[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #3f4350; }
+
+/* Ô biểu tượng trên thẻ số liệu (admin.css viết cứng nền vàng nhạt). */
+:root:is([data-palette="ops"],[data-palette="stage"]) .stat-icon { background: var(--accent-soft-2); color: var(--accent-text); border-radius: var(--r); }

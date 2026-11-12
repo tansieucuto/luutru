@@ -1,0 +1,32 @@
+{
+  "name": "beacon_server",
+  "version": "1.0.0",
+  "description": "Backend server cho he thong check-in Beacon bao tang",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "bat": "sh scripts/beacon.sh bat",
+    "tat": "sh scripts/beacon.sh tat",
+    "khoi-dong-lai": "sh scripts/beacon.sh bat",
+    "trang-thai": "sh scripts/beacon.sh trang-thai",
+    "nhat-ky": "sh scripts/beacon.sh nhat-ky",
+    "pm2:start": "sh scripts/beacon.sh bat",
+    "pm2:restart": "sh scripts/beacon.sh bat",
+    "pm2:stop": "sh scripts/beacon.sh tat",
+    "pm2:logs": "sh scripts/beacon.sh nhat-ky"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.5.2",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.2.0",
+    "music-metadata": "^11.14.0",
+    "qrcode-svg": "^1.1.0",
+    "tar": "^6.2.1",
+    "unzipper": "^0.10.14"
+  }
+}

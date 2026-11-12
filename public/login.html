@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập · {thuongHieu}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;900&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="stage">
+  <div class="reveal" id="reveal">
+    <div class="letters" id="letters"></div>
+  </div>
+
+  <div class="login-wrap" id="login-wrap">
+    <form class="login-card" id="login-form">
+      <div class="login-mark">{thuongHieuChu}</div>
+      <h1>{thuongHieu}</h1>
+      <p class="login-sub">Đăng nhập để quản lý {nhom}, {muc} và {thietBi}</p>
+
+      <div class="field">
+        <label>Tài khoản</label>
+        <input type="text" id="login-username" autocomplete="username" placeholder="admin" required>
+      </div>
+      <div class="field">
+        <label>Mật khẩu</label>
+        <div class="pw-wrap">
+          <input type="password" id="login-password" autocomplete="current-password" placeholder="••••••" required>
+          <button type="button" class="pw-eye-btn" data-target="login-password" aria-label="Hiện/ẩn mật khẩu"></button>
+        </div>
+      </div>
+
+      <div class="login-msg" id="login-msg"></div>
+
+      <button type="submit" class="login-btn">Đăng nhập</button>
+      <!-- Cố ý KHÔNG có nút đổi mật khẩu khi chưa đăng nhập: một người đã nghỉ việc
+           mà còn nhớ mật khẩu có thể đổi mật khẩu và khóa cả bảo tàng ra ngoài.
+           Mỗi người có tài khoản riêng; quên mật khẩu thì tài khoản Chủ đặt lại
+           giúp (luôn có 2 tài khoản Chủ). -->
+      <p class="login-hint">
+        <button type="button" class="link-btn" id="forgot-open">Quên mật khẩu?</button>
+      </p>
+    </form>
+    <p class="login-tagline">Hệ thống {thuyetMinh} tự động theo vị trí — dùng cho bảo tàng, showroom, nhà máy, trường học và mọi không gian giới thiệu.</p>
+
+    <!-- Bước 2 của đăng nhập: mã 6 số từ ứng dụng xác thực. Chỉ hiện với tài
+         khoản Chủ đã bật. Mật khẩu đã đúng rồi mới tới đây. -->
+    <form class="login-card" id="mfa-form" hidden>
+      <div class="login-mark">{thuongHieuChu}</div>
+      <h1>Mã xác thực</h1>
+      <p class="login-sub" id="mfa-sub">Mở ứng dụng xác thực trên điện thoại và nhập mã 6 số.</p>
+
+      <div class="field">
+        <label>Mã 6 số</label>
+        <input type="text" id="mfa-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456">
+      </div>
+
+      <div class="login-msg" id="mfa-msg"></div>
+
+      <button type="submit" class="login-btn" id="mfa-btn">Xác nhận</button>
+      <p class="login-hint">
+        Mã đổi 30 giây một lần — nếu sai liên tục, kiểm tra giờ trên điện thoại.<br>
+        <button type="button" class="link-btn" id="mfa-back">← Quay lại</button>
+      </p>
+    </form>
+
+    <!-- Lấy lại mật khẩu bằng email — CHỈ tài khoản Chủ đã đặt email khôi phục.
+         Hai bước trong cùng một thẻ: (1) nhập tên đăng nhập để xin mã,
+         (2) nhập mã + mật khẩu mới. -->
+    <form class="login-card" id="forgot-form" hidden>
+      <div class="login-mark">{thuongHieuChu}</div>
+      <h1>Quên mật khẩu</h1>
+      <p class="login-sub" id="forgot-sub">Chỉ dùng được cho tài khoản Chủ đã đặt email khôi phục.</p>
+
+      <div class="field">
+        <label>Tài khoản</label>
+        <input type="text" id="forgot-username" autocomplete="username" placeholder="admin" required>
+      </div>
+
+      <div id="forgot-step2" hidden>
+        <div class="field">
+          <label>Mã 6 số trong email</label>
+          <input type="text" id="forgot-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456">
+        </div>
+        <div class="field">
+          <label>Mật khẩu mới</label>
+          <div class="pw-wrap">
+            <input type="password" id="forgot-newpw" autocomplete="new-password" placeholder="ít nhất 8 ký tự">
+            <button type="button" class="pw-eye-btn" data-target="forgot-newpw" aria-label="Hiện/ẩn mật khẩu"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-msg" id="forgot-msg"></div>
+
+      <button type="submit" class="login-btn" id="forgot-btn">Gửi mã về email</button>
+      <p class="login-hint">
+        <button type="button" class="link-btn" id="forgot-back">← Quay lại đăng nhập</button>
+      </p>
+    </form>
+
+  </div>
+</div>
+
+<!-- Popup "Quên mật khẩu?" - câu trả lời cho gần như mọi người là "nhờ tài khoản
+     Chủ đặt lại giúp". Đường lấy lại bằng email chỉ dành cho chính tài khoản Chủ
+     nên để làm lối phụ, không phải việc đầu tiên đập vào mắt. -->
+<div class="modal-backdrop" id="forgot-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="forgot-modal-title">
+    <button type="button" class="modal-x" id="forgot-modal-close" aria-label="Đóng">&times;</button>
+
+    <div class="modal-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <h2 id="forgot-modal-title">Quên mật khẩu?</h2>
+    <p class="modal-lead">Bạn không tự đặt lại được — hãy nhờ <strong>tài khoản Chủ</strong> cấp lại mật khẩu mới.</p>
+
+    <ol class="modal-steps">
+      <li>Nhắn cho người giữ tài khoản Chủ, nói rõ tên đăng nhập của bạn.</li>
+      <li>Họ vào <strong>Quản lý tài khoản</strong>, tìm tên bạn, bấm <strong>Đặt lại mật khẩu</strong>.</li>
+      <li>Mật khẩu mới hiện ra <strong>đúng một lần</strong> trên máy họ — họ đọc lại cho bạn.</li>
+    </ol>
+
+    <div class="modal-owner">
+      <p>Bạn <em>chính là</em> tài khoản Chủ và không có ai đặt lại giúp?</p>
+      <button type="button" class="btn-ghost" id="forgot-owner-btn">Lấy lại bằng email khôi phục</button>
+    </div>
+
+    <button type="button" class="login-btn" id="forgot-modal-ok">Đã hiểu</button>
+  </div>
+</div>
+
+<script src="thuatNgu.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

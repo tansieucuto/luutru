@@ -1,0 +1,63 @@
+node_modules/
+.env
+*.db
+downloads/
+tmp_import/
+.claude/
+
+# Backup code he LEGACY da xoa (xem CLAUDE.md muc 1) - giu tren dia lam luoi an
+# toan, khong can lich su git.
+.legacy-backup-*/
+
+# Media va backup noi bo cua content/: nang (co the len GB), khong hop de trong
+# git. RIENG manifest.json thi CO theo doi - do la thu that su hay thay doi va
+# la cai can biet "ai doi gi luc nao" khi debug.
+content/images/
+content/audio/
+content/.import-backups/
+content/.language-backups/
+content/.analytics/
+content/.history/
+
+# Mo hinh 3D (.glb) + dai anh xoay - nhi phan, nang, cung loai voi images/audio.
+# Duoc scripts/backup-content.sh sao luu.
+content/models/
+content/turntable/
+
+# 17MB mp4/mp3 mo coi tu he LEGACY - da grep: KHONG code nao con tham chieu
+# toi public/videos/. Giu tren dia thi vo hai, nhung khong dua vao git.
+public/videos/
+
+# Kho tai khoan quan tri (chua hash mat khau) - KHONG commit
+users.json
+users.json.tmp-*
+
+# Nhieu bao tang: danh sach bao tang (scripts/tao-bao-tang.js ghi) + thu muc du lieu
+# vi du cua docker-compose.nhieu-bao-tang.yml. Moi thu muc chua .env + tai khoan.
+bao-tang.json
+bao-tang/
+
+# Cai dat gui thu (chua mat khau SMTP / khoa API) - KHONG commit
+mail.json
+mail.json.tmp-*
+account-audit.ndjson
+
+# Goi phat hanh Docker (scripts/package-docker.sh) - dung lai duoc, khong dua vao git.
+dist/
+
+# Ban gop ma nguon 1 file (Repomix...) de dua cho cong cu review - nang (vai MB), sinh
+# lai duoc, va lan chay sau se gop luon ca ban cu vao trong chinh no (long de quy).
+argon*_bundle.xml
+*.bundle.xml
+temp_code.xml
+repomix*
+
+# Van hanh (CLAUDE.md §5.28): ten may tham quan + ket qua sao luu gan nhat - du lieu
+# rieng cua tung bao tang, khong phai ma nguon.
+devices.json
+devices.json.tmp-*
+backup-status.json
+backup-status.json.tmp
+
+# Cai dat giao dien CMS (cmsSettings.js)
+cms-settings.json

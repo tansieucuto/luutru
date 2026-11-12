@@ -1,0 +1,25 @@
+# File compose phát hành kèm image Docker dựng sẵn.
+# Máy nhận không cần mã nguồn hay Dockerfile.
+services:
+  beacon-cms:
+    image: ${BEACON_IMAGE:-beacon-cms:local}
+    container_name: beacon-cms
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+      PORT: "3000"
+      BIND_HOST: 0.0.0.0
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    volumes:
+      - beacon-content:/app/content
+      - beacon-downloads:/app/downloads
+      - beacon-state:/var/lib/beacon
+
+volumes:
+  beacon-content:
+  beacon-downloads:
+  beacon-state:

@@ -1,0 +1,28 @@
+services:
+  beacon-cms:
+    build:
+      context: .
+    image: beacon-cms:local
+    container_name: beacon-cms
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      # Chạy Docker trực tiếp thì phục vụ HTTP ở cổng đã map. Đặt reverse proxy có
+      # TLS phía trước rồi mới bật NODE_ENV=production.
+      NODE_ENV: development
+      PORT: "3000"
+      BIND_HOST: 0.0.0.0
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    volumes:
+      # Nội dung CMS, bundle đã sinh và dữ liệu tài khoản còn nguyên khi cập nhật image.
+      - beacon-content:/app/content
+      - beacon-downloads:/app/downloads
+      - beacon-state:/var/lib/beacon
+
+volumes:
+  beacon-content:
+  beacon-downloads:
+  beacon-state:

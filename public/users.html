@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý tài khoản · {thuongHieu}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="phongCachVanHanh.css">
+<link rel="stylesheet" href="phongCachTrinhDien.css">
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">{thuongHieuChu}</div>
+      <div class="brand-name">{thuongHieu}</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Menu</div>
+      <a class="nav-item" href="admin.html">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        </span>
+        <span class="nav-item-text">Quay lại trang quản trị</span>
+      </a>
+
+      <div class="nav-sep"></div>
+      <button class="nav-item active" type="button">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M17 7h5M19.5 4.5v5"/></svg>
+        </span>
+        <span class="nav-item-text">Quản lý tài khoản</span>
+      </button>
+    </div>
+
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="breadcrumbs">
+        <div class="crumb-trail">
+          <a class="crumb-home" href="admin.html">Trang quản trị</a>
+          <span class="sep">/</span>
+          <span class="current">Quản lý tài khoản</span>
+        </div>
+        <h1 class="page-title">Quản lý tài khoản</h1>
+      </div>
+
+      <!-- Cùng cụm nút như admin.html (bảng màu, sáng/tối, tài khoản). Chú ý:
+           KHÔNG có chuông thông báo — danh sách thông báo là của riêng trang
+           nhập liệu. Toàn bộ hành vi nằm ở appearance.js. -->
+      <div class="topbar-actions">
+        <div class="icon-btn palette-btn" id="palette-btn" title="Đổi bảng màu">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 100 20c1.4 0 2-.9 2-2 0-.6-.3-1-.6-1.4-.3-.4-.6-.8-.6-1.4 0-1 .8-1.8 1.8-1.8H16c2.2 0 4-1.8 4-4 0-5-4.5-9.4-8-9.4z"/><circle cx="7" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="11" cy="7" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+
+          <div class="palette-panel" id="palette-panel">
+            <div class="notif-panel-head"><span>Bảng màu</span></div>
+            <div class="palette-list">
+              <button type="button" class="palette-swatch" data-palette="stage" title="Trình diễn (mặc định)">
+                <span class="swatch-dot" style="background:linear-gradient(135deg,#18252c 50%,#0d7a72 50%)"></span>Trình diễn
+              </button>
+              <button type="button" class="palette-swatch" data-palette="ops" title="Vận hành">
+                <span class="swatch-dot" style="background:linear-gradient(135deg,#0077cc,#36a2ef)"></span>Vận hành
+              </button>
+              <button type="button" class="palette-swatch" data-palette="gold" title="Vàng">
+                <span class="swatch-dot" style="background:linear-gradient(135deg,#c8973a,#e8c570)"></span>Vàng
+              </button>
+              <button type="button" class="palette-swatch" data-palette="blue" title="Xanh dương">
+                <span class="swatch-dot" style="background:linear-gradient(135deg,#2f6fed,#6fa1ff)"></span>Xanh dương
+              </button>
+              <button type="button" class="palette-swatch" data-palette="green" title="Xanh ngọc">
+                <span class="swatch-dot" style="background:linear-gradient(135deg,#1f9d6b,#4fd39a)"></span>Xanh ngọc
+              </button>
+              <button type="button" class="palette-swatch" data-palette="purple" title="Tím">
+                <span class="swatch-dot" style="background:linear-gradient(135deg,#8b5cf6,#c4a4ff)"></span>Tím
+              </button>
+              <button type="button" class="palette-swatch" data-palette="rose" title="Hồng đỏ">
+                <span class="swatch-dot" style="background:linear-gradient(135deg,#e0446e,#ff8fa8)"></span>Hồng đỏ
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="icon-btn" id="theme-toggle" title="Đổi giao diện sáng/tối">
+          <svg id="theme-icon-dark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.5A9 9 0 1111.5 3 7 7 0 0021 12.5z"/></svg>
+          <svg id="theme-icon-light" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+        </div>
+        <div class="avatar-btn" id="avatar-btn">
+          <div class="avatar" title="Tài khoản của bạn">
+            <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="15" r="6.4"/><path d="M7.5 34c0-6.4 5.6-11 12.5-11s12.5 4.6 12.5 11z"/></svg>
+          </div>
+          <div class="avatar-panel" id="avatar-panel">
+            <div class="avatar-head">
+              <span class="user-avatar" aria-hidden="true">
+                <svg viewBox="0 0 40 40"><circle cx="20" cy="15" r="6.4"/><path d="M7.5 34c0-6.4 5.6-11 12.5-11s12.5 4.6 12.5 11z"/></svg>
+              </span>
+              <div class="avatar-head-text">
+                <div class="avatar-head-name" id="me-name">&nbsp;</div>
+                <div class="avatar-head-role" id="me-role"></div>
+              </div>
+            </div>
+            <button type="button" class="avatar-menu-item" id="logout-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+              Đăng xuất
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="content-area">
+      <section class="card panel" style="margin-top: 12px;">
+        <div id="owner-warn"></div>
+
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Tài khoản</div>
+            <div class="form-hint" id="count-line" style="padding-top:3px;"></div>
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-create">+ Tạo tài khoản</button>
+        </div>
+
+        <div id="user-list">
+          <div style="color:var(--muted); padding:10px 0;">Đang tải...</div>
+        </div>
+      </section>
+
+      <!-- Nhật ký thao tác tài khoản. Chỉ đọc, không có nút xóa — xem accountAudit.js. -->
+      <section class="card panel" style="margin-top: 20px;">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Nhật ký tài khoản</div>
+            <div class="form-hint" style="padding-top:3px;">Mọi lần tạo, đổi tên, đổi vai trò, khóa, đặt lại mật khẩu, gỡ mã xác thực hay xóa tài khoản. Không xóa được từ giao diện.</div>
+          </div>
+          <button type="button" class="btn btn-outline btn-tiny" id="btn-audit-reload">Tải lại</button>
+        </div>
+        <div id="audit-list">
+          <div style="color:var(--muted); padding:10px 0;">Đang tải...</div>
+        </div>
+      </section>
+
+      <!-- Gửi thư của hệ thống: cài MỘT lần cho cả bảo tàng, mọi tài khoản Chủ dùng
+           chung. Đặt TRƯỚC ô email khôi phục vì ô đó chỉ dùng được khi gửi được thư. -->
+      <section class="card panel" style="margin-top: 20px;">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Gửi thư của hệ thống</div>
+            <div class="form-hint" style="padding-top:3px;">Máy chủ dùng để gửi mã quên mật khẩu và thư báo bảo mật. Cài một lần cho cả {donVi}.</div>
+          </div>
+        </div>
+        <div id="mail-panel">
+          <div style="color:var(--muted); padding:10px 0;">Đang tải...</div>
+        </div>
+      </section>
+
+      <!-- Email khôi phục: chỉ cứu đúng MỘT tình huống — chính người đang xem
+           trang này (vai trò Chủ) quên mật khẩu của họ. Nhân viên quên thì
+           dùng nút "Đặt lại mật khẩu" ở danh sách bên trên. -->
+      <section class="card panel" style="margin-top: 20px;">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Email khôi phục của bạn</div>
+            <div class="form-hint" style="padding-top:3px;">Dùng khi chính bạn quên mật khẩu và không có tài khoản Chủ nào khác đặt lại giúp.</div>
+          </div>
+        </div>
+        <div id="recovery-panel">
+          <div style="color:var(--muted); padding:10px 0;">Đang tải...</div>
+        </div>
+      </section>
+
+      <!-- Lớp bảo vệ thứ hai. Cố ý đặt NGAY DƯỚI ô email khôi phục: hai thứ này
+           là hai chìa khóa của cùng một tài khoản, và mỗi cái cứu một tình
+           huống khác nhau (quên mật khẩu / mất điện thoại). -->
+      <section class="card panel" style="margin-top: 20px;">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Mã xác thực 2 lớp</div>
+            <div class="form-hint" style="padding-top:3px;">Bật rồi thì mỗi lần đăng nhập, sau mật khẩu sẽ hỏi thêm mã 6 số trên điện thoại.</div>
+          </div>
+        </div>
+        <div id="totp-panel">
+          <div style="color:var(--muted); padding:10px 0;">Đang tải...</div>
+        </div>
+      </section>
+
+      <!-- Cách gọi tên đối tượng + trạng thái + đơn vị tính. Chỉ đổi chữ hiển thị trong
+           CMS — dữ liệu và app trên thiết bị không đổi (cmsSettings.js). -->
+      <section class="card panel" style="margin-top: 20px;">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Cách gọi tên &amp; trạng thái</div>
+            <div class="form-hint" style="padding-top:3px;">Đổi cách gọi các đối tượng cho hợp với ngành của bạn. Chỉ đổi chữ hiển thị trong trang quản trị, dữ liệu giữ nguyên.</div>
+          </div>
+        </div>
+        <div id="cms-settings-panel">
+          <div style="color:var(--muted); padding:10px 0;">Đang tải...</div>
+        </div>
+      </section>
+
+      <section class="card panel" style="margin-top: 20px;">
+        <div class="panel-head">
+          <div class="panel-title">Ba vai trò làm được gì</div>
+        </div>
+        <div class="role-legend">
+          <div class="role-legend-row">
+            <span class="chip chip-owner">Chủ</span>
+            <span>Làm được mọi thứ, kể cả tạo và khóa tài khoản người khác.</span>
+          </div>
+          <div class="role-legend-row">
+            <span class="chip">Biên tập</span>
+            <span>Thêm, sửa, xóa {muc} và {nhom}. Đóng gói dữ liệu. Xem thống kê.
+              <span class="role-no">Không nhập được gói ZIP đè cả kho, không xóa được bản sao lưu.</span></span>
+          </div>
+          <div class="role-legend-row">
+            <span class="chip">Chỉ xem</span>
+            <span>Xem nội dung và thống kê. <span class="role-no">Không sửa được gì cả.</span></span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- Popup dùng chung cho tạo / đổi vai trò / khóa / xóa / đặt lại mật khẩu -->
+<div class="modal-overlay" id="user-modal">
+  <div class="modal-card" id="user-modal-card"></div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+
+<script src="thuatNgu.js"></script>
+<script src="hoTro.js"></script>
+<script src="appearance.js"></script>
+<script src="users.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+/* =====================================================================
+   PHONG CÁCH "TRÌNH DIỄN" — mặc định từ 2026-11-13.
+
+   CMS là phòng điều khiển cho một hệ thống THUYẾT MINH / GIỚI THIỆU dùng chung
+   mọi ngành (bảo tàng, showroom, nhà máy, trường học, triển lãm, nhà đất...),
+   nên giao diện không mượn màu của ngành nào: nền giấy trung tính, thanh bên
+   màu mực, một màu lục lam chủ đạo, và một màu hổ phách duy nhất cho "tín hiệu"
+   (đang phát, đang chọn) — gợi lên âm thanh/sóng beacon thay vì bảng giá.
+
+   Phần CẤU TRÚC (bo góc, nút phẳng, bảng...) dùng chung với phong cách "Vận
+   hành" (phongCachVanHanh.css áp cho cả hai). File này chỉ đổi màu, thanh bên
+   và dải "hành trình" ở Trang chủ. Nạp SAU phongCachVanHanh.css.
+   ===================================================================== */
+
+:root[data-palette="stage"] {
+  --bg: #f3f5f4;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --border: #d9e0de;
+  --gold: #0d7a72;          /* màu chủ đạo: lục lam (tên biến giữ nguyên để không sửa admin.css) */
+  --gold2: #0a5f59;
+  --accent-text: #0b6a63;   /* 6.0:1 trên trắng */
+  --text: #1f2a30;
+  --muted: #56646b;         /* 5.9:1 trên trắng */
+  --green2: #1d7f4e;
+  --red2: #b42a22;
+  --on-accent: #ffffff;
+  --accent-soft: rgba(13, 122, 114, 0.08);
+  --accent-soft-2: rgba(13, 122, 114, 0.15);
+  --signal: #e0a01b;        /* hổ phách: chỉ dùng cho tín hiệu, không làm nền lớn */
+  --ink: #18252c;           /* thanh bên */
+  --ink-2: #22323a;
+  --ink-text: #c9d6d9;
+  --ink-muted: #8ea1a7;
+  --nav-bg: var(--ink);
+  --font-head: 'Be Vietnam Pro', sans-serif;
+  --sidebar-w: 240px;
+  --r: 8px;
+  color-scheme: light;
+}
+
+:root[data-palette="stage"][data-theme="dark"] {
+  --bg: #111719;
+  --surface: #182124;
+  --card: #1d282c;
+  --border: #2c3a3f;
+  --gold: #3fb8ad;
+  --gold2: #6fd0c6;
+  --accent-text: #6fd0c6;
+  --text: #e2eaeb;
+  --muted: #9aabb0;
+  --green2: #6fd39b;
+  --red2: #f2766c;
+  --on-accent: #062320;
+  --accent-soft: rgba(63, 184, 173, 0.10);
+  --accent-soft-2: rgba(63, 184, 173, 0.18);
+  --ink: #0c1214;
+  --ink-2: #162024;
+  color-scheme: dark;
+}
+
+/* ---------- Chữ: chữ thường đầu câu, không viết hoa toàn bộ nhãn ---------- */
+:root[data-palette="stage"] body { font-feature-settings: "ss01"; }
+:root[data-palette="stage"] .page-title { font-size: 21px; font-weight: 650; letter-spacing: -0.01em; }
+:root[data-palette="stage"] .panel-title,
+:root[data-palette="stage"] .chart-title { letter-spacing: -0.005em; }
+
+/* ---------- Thanh bên màu mực ---------- */
+:root[data-palette="stage"] .sidebar {
+  background: var(--ink); border-right: 0; color: var(--ink-text);
+}
+:root[data-palette="stage"] .brand { border-bottom-color: rgba(255, 255, 255, .08); }
+:root[data-palette="stage"] .brand-mark {
+  background: transparent; color: var(--ink-text);
+  border: 1.5px solid rgba(255, 255, 255, .22);
+  position: relative;
+}
+/* Một chấm hổ phách ở góc logo = "đang phát". Là điểm nhấn duy nhất của thanh bên. */
+:root[data-palette="stage"] .brand-mark::after {
+  content: ''; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px;
+  border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 2px var(--ink);
+}
+:root[data-palette="stage"] .brand-name { color: #fff; font-weight: 600; }
+:root[data-palette="stage"] .nav-label {
+  color: var(--ink-muted); text-transform: none; letter-spacing: 0; font-size: 12px; font-weight: 500;
+}
+:root[data-palette="stage"] .nav-item { color: var(--ink-text); }
+:root[data-palette="stage"] .nav-item:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+:root[data-palette="stage"] .nav-item.active {
+  background: var(--ink-2); color: #fff; box-shadow: inset 3px 0 0 var(--signal);
+}
+:root[data-palette="stage"] .sidebar hr,
+:root[data-palette="stage"] .nav-divider { border-color: rgba(255, 255, 255, .08); background: rgba(255, 255, 255, .08); }
+:root[data-palette="stage"] .sidebar-footer {
+  background: var(--ink-2); border-color: rgba(255, 255, 255, .08); color: var(--ink-muted);
+}
+
+/* ---------- Thanh trên ---------- */
+/* Dải hoa văn trống đồng (di sản bảo tàng) bỏ hẳn khỏi bố cục — chỉ ẩn bằng visibility
+   thì nó vẫn chiếm chỗ và đẩy trang cuộn ngang trên màn hẹp. */
+:root:is([data-palette="ops"],[data-palette="stage"]) .topbar-watermark { display: none; }
+:root:is([data-palette="ops"],[data-palette="stage"]) .topbar-actions { margin-left: auto; }
+:root[data-palette="stage"] .topbar { background: var(--surface); border-bottom: 1px solid var(--border); box-shadow: none; }
+:root[data-palette="stage"] .crumb-trail .current { color: var(--accent-text); }
+
+/* Nhãn thẻ vận hành: chữ thường đầu câu thay vì VIẾT HOA giãn chữ. */
+:root[data-palette="stage"] .ops-head { text-transform: none; letter-spacing: 0; font-size: 13px; }
+
+/* ---------- Thẻ số liệu cũ: bỏ vạch xanh trên đầu, để dải hành trình làm điểm nhấn ---------- */
+:root[data-palette="stage"] .stat-card { border-top: 1px solid var(--border); }
+:root[data-palette="stage"] .ops-card { box-shadow: none; }
+
+/* ---------- Huy hiệu trạng thái: nhãn nhạt, chữ đậm màu ---------- */
+:root[data-palette="stage"] .status-badge { border-radius: 4px; }
+:root[data-palette="stage"] .status-green { color: #17663f; background: #dff1e6; }
+:root[data-palette="stage"] .status-amber { color: #7a4d00; background: #fbecc8; }
+:root[data-palette="stage"] .status-red   { color: #9b231c; background: #f8dedb; }
+:root[data-palette="stage"] .status-blue  { color: #1c4f86; background: #dde9f6; }
+:root[data-palette="stage"] .status-gray  { color: #43515a; background: #e4e9e8; }
+:root[data-palette="stage"][data-theme="dark"] .status-badge { filter: saturate(.9) brightness(.92); }
+
+
+/* =====================================================================
+   DẢI "HÀNH TRÌNH THUYẾT MINH" Ở TRANG CHỦ
+   Ba bước là MỘT TRÌNH TỰ THẬT (khu vực có beacon → nội dung → thiết bị phát
+   cho khách), nên đánh số là đúng nghĩa. Dải sóng nối ba bước là chi tiết đáng
+   nhớ duy nhất của giao diện — mọi chỗ khác giữ yên.
+   Dùng cho MỌI bảng màu (không gắn data-palette), màu lấy từ biến.
+   ===================================================================== */
+.journey {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r, 8px);
+  padding: 22px 24px 20px; margin-bottom: 0;
+}
+.journey-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.journey-title { font-size: 19px; font-weight: 650; letter-spacing: -0.01em; color: var(--text); margin: 0; }
+.journey-lead { color: var(--muted); font-size: 14px; margin: 4px 0 0; max-width: 62ch; }
+
+.journey-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; position: relative; list-style: none; margin: 0; padding: 0; }
+
+/* Dải sóng chạy ngang sau ba bước (SVG nhúng làm nền, màu theo biến qua mask). */
+.journey-steps::before {
+  content: ''; position: absolute; left: 28px; right: 28px; top: 16px; height: 24px;
+  background: var(--gold); opacity: .55;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'><path d='M0 12 h6 l3-7 l4 14 l4-18 l4 22 l4-16 l4 10 l3-5 h12' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='round'/></svg>") repeat-x center / 48px 24px;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='24' viewBox='0 0 48 24'><path d='M0 12 h6 l3-7 l4 14 l4-18 l4 22 l4-16 l4 10 l3-5 h12' fill='none' stroke='black' stroke-width='1.6' stroke-linejoin='round'/></svg>") repeat-x center / 48px 24px;
+}
+
+.journey-step { position: relative; padding: 0 18px 0 0; }
+.journey-num {
+  position: relative; z-index: 1;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--card); border: 1.5px solid var(--gold); color: var(--accent-text);
+  font-weight: 650; font-size: 15px;
+  box-shadow: 0 0 0 6px var(--card);
+}
+.journey-step.is-done .journey-num { background: var(--gold); color: var(--on-accent, #fff); }
+.journey-step.is-live .journey-num::after {
+  content: ''; position: absolute; right: -2px; top: -2px; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--signal, #e0a01b); box-shadow: 0 0 0 2px var(--card);
+}
+.journey-name { font-size: 15px; font-weight: 600; color: var(--text); margin: 12px 0 2px; }
+.journey-desc { font-size: 13px; color: var(--muted); margin: 0 0 10px; max-width: 34ch; line-height: 1.5; }
+.journey-count { display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px; }
+.journey-count .stat-value { font-family: var(--font-main); font-size: 30px; font-weight: 650; color: var(--text); line-height: 1; }
+.journey-count .stat-label { font-size: 13px; color: var(--muted); }
+.journey-link {
+  background: none; border: 0; padding: 0; cursor: pointer; font: inherit; font-size: 13.5px; font-weight: 600;
+  color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+}
+.journey-link:hover { text-decoration-thickness: 2px; }
+.journey-link:focus-visible,
+.journey-step .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 3px; }
+
+@media (max-width: 860px) {
+  .journey-steps { grid-template-columns: 1fr; gap: 22px; }
+  .journey-steps::before { display: none; }
+  .journey-step { padding: 0 0 0 56px; }
+  .journey-num { position: absolute; left: 0; top: 0; }
+  .journey-name { margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey * { transition: none !important; animation: none !important; }
+}
+
+/* Trang chủ đã có khoảng cách giữa các khối (gap của .view); bỏ margin-top cũ của
+   lưới vận hành để khoảng trống dưới dải hành trình bằng các chỗ khác. */
+.journey ~ .ops-grid { margin-top: 0; }
+
+/* Màn hẹp (điện thoại): thanh trên gọn lại — trước đây ảnh đại diện bị đẩy ra ngoài
+   mép phải và trang cuộn ngang. */
+@media (max-width: 560px) {
+  :root:is([data-palette="ops"],[data-palette="stage"]) .topbar { padding: 10px 12px; gap: 8px; }
+  :root:is([data-palette="ops"],[data-palette="stage"]) .icon-btn { width: 32px; height: 32px; }
+  :root:is([data-palette="ops"],[data-palette="stage"]) .page-title { font-size: 18px; }
+  .topbar-actions { gap: 6px; flex-shrink: 0; }
+  .topbar .breadcrumbs { min-width: 0; flex: 0 1 auto; overflow: hidden; }
+  .crumb-trail, .page-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}

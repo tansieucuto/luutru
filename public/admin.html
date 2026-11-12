@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{thuongHieu} · {DonVi}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="phongCachVanHanh.css">
+<link rel="stylesheet" href="phongCachTrinhDien.css">
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">{thuongHieuChu}</div>
+      <div class="brand-name">{thuongHieu}</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-label">Menu</div>
+      <button class="nav-item active" data-view="home">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        </span>
+        <span class="nav-item-text">Trang chủ</span>
+      </button>
+      <button class="nav-item" data-view="videos">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M21 8l-4 3 4 3V8z"/></svg>
+        </span>
+        <span class="nav-item-text">Quản lý nội dung</span>
+      </button>
+      <button class="nav-item" data-view="search">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        </span>
+        <span class="nav-item-text">Tìm kiếm nội dung</span>
+      </button>
+      <button class="nav-item" data-view="static-content">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+        </span>
+        <span class="nav-item-text">Lịch sử đóng gói</span>
+      </button>
+      <button class="nav-item" data-view="ui-strings">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-6-4-9s1.5-6.5 4-9z"/></svg>
+        </span>
+        <span class="nav-item-text">Giao diện ứng dụng</span>
+      </button>
+      <button class="nav-item" data-view="history">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 106 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
+        </span>
+        <span class="nav-item-text">Nhật ký &amp; hoàn tác</span>
+      </button>
+      <button class="nav-item" data-view="analytics">
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6" rx="0.5"/><rect x="13" y="8" width="3" height="10" rx="0.5"/><rect x="19" y="5" width="3" height="13" rx="0.5"/></svg>
+        </span>
+        <span class="nav-item-text">Thống kê</span>
+      </button>
+
+      <!-- Quản trị tài khoản: việc vài tháng một lần, không phải việc hằng ngày
+           -> tách bằng đường kẻ. admin.js ẩn cả cụm này nếu không phải Chủ. -->
+      <div class="nav-sep" data-need-role="owner" hidden></div>
+      <a class="nav-item" href="users.html" data-need-role="owner" hidden>
+        <span class="hover-circle" aria-hidden="true"></span>
+        <span class="ico">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M17 7h5M19.5 4.5v5"/></svg>
+        </span>
+        <span class="nav-item-text">Quản lý tài khoản</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- Nền mờ sau ngăn kéo menu (chỉ hiện ở màn hình hẹp) -->
+  <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+
+  <!-- Main -->
+  <div class="main">
+    <header class="topbar">
+      <button type="button" class="icon-btn menu-toggle" id="menu-toggle" aria-label="Mở menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="breadcrumbs">
+        <div class="crumb-trail"><span class="crumb-home" data-act="view" data-view="home">Trang quản trị</span> <span class="sep">/</span> <span class="current" id="crumb-current">Trang chủ</span></div>
+        <h1 class="page-title" id="page-title">Trang chủ</h1>
+      </div>
+
+      <div class="search-wrap">
+        <div class="topbar-watermark" aria-hidden="true">
+          <div class="watermark-track" id="watermark-track"></div>
+        </div>
+        <div class="topbar-actions">
+          <div class="icon-btn palette-btn" id="palette-btn" title="Đổi bảng màu" role="button" tabindex="0" aria-label="Đổi bảng màu" aria-haspopup="true" data-nut-ban-phim>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 100 20c1.4 0 2-.9 2-2 0-.6-.3-1-.6-1.4-.3-.4-.6-.8-.6-1.4 0-1 .8-1.8 1.8-1.8H16c2.2 0 4-1.8 4-4 0-5-4.5-9.4-8-9.4z"/><circle cx="7" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="11" cy="7" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+
+            <div class="palette-panel" id="palette-panel">
+              <div class="notif-panel-head"><span>Bảng màu</span></div>
+              <div class="palette-list">
+                <button type="button" class="palette-swatch" data-palette="stage" title="Trình diễn (mặc định)">
+                  <span class="swatch-dot" style="background:linear-gradient(135deg,#18252c 50%,#0d7a72 50%)"></span>Trình diễn
+                </button>
+                <button type="button" class="palette-swatch" data-palette="ops" title="Vận hành">
+                  <span class="swatch-dot" style="background:linear-gradient(135deg,#0077cc,#36a2ef)"></span>Vận hành
+                </button>
+                <button type="button" class="palette-swatch" data-palette="gold" title="Vàng">
+                  <span class="swatch-dot" style="background:linear-gradient(135deg,#c8973a,#e8c570)"></span>Vàng
+                </button>
+                <button type="button" class="palette-swatch" data-palette="blue" title="Xanh dương">
+                  <span class="swatch-dot" style="background:linear-gradient(135deg,#2f6fed,#6fa1ff)"></span>Xanh dương
+                </button>
+                <button type="button" class="palette-swatch" data-palette="green" title="Xanh ngọc">
+                  <span class="swatch-dot" style="background:linear-gradient(135deg,#1f9d6b,#4fd39a)"></span>Xanh ngọc
+                </button>
+                <button type="button" class="palette-swatch" data-palette="purple" title="Tím">
+                  <span class="swatch-dot" style="background:linear-gradient(135deg,#8b5cf6,#c4a4ff)"></span>Tím
+                </button>
+                <button type="button" class="palette-swatch" data-palette="rose" title="Hồng đỏ">
+                  <span class="swatch-dot" style="background:linear-gradient(135deg,#e0446e,#ff8fa8)"></span>Hồng đỏ
+                </button>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="icon-btn" id="theme-toggle" title="Đổi giao diện sáng/tối" aria-label="Đổi giao diện sáng/tối">
+            <svg id="theme-icon-dark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.5A9 9 0 1111.5 3 7 7 0 0021 12.5z"/></svg>
+            <svg id="theme-icon-light" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          </button>
+          <div class="icon-btn notif-btn" id="notif-btn" role="button" tabindex="0" aria-label="Thông báo" aria-haspopup="true" data-nut-ban-phim>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+            <span class="dot" id="notif-dot" style="display:none"></span>
+
+            <div class="notif-panel" id="notif-panel">
+              <div class="notif-panel-head">
+                <span>Thông báo</span>
+                <span class="notif-clear" id="notif-clear">Xóa hết</span>
+              </div>
+              <div class="notif-list" id="notif-list">
+                <div class="notif-empty">Chưa có thông báo nào.</div>
+              </div>
+            </div>
+          </div>
+          <div class="avatar-btn" id="avatar-btn" role="button" tabindex="0" aria-label="Tài khoản của bạn" aria-haspopup="true" data-nut-ban-phim>
+            <div class="avatar" title="Tài khoản của bạn">
+              <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="15" r="6.4"/><path d="M7.5 34c0-6.4 5.6-11 12.5-11s12.5 4.6 12.5 11z"/></svg>
+            </div>
+            <div class="avatar-panel" id="avatar-panel">
+              <!-- Danh tính người đang đăng nhập (tên + vai trò) — admin.js điền vào. -->
+              <div class="avatar-head">
+                <span class="user-avatar" aria-hidden="true">
+                  <svg viewBox="0 0 40 40"><circle cx="20" cy="15" r="6.4"/><path d="M7.5 34c0-6.4 5.6-11 12.5-11s12.5 4.6 12.5 11z"/></svg>
+                </span>
+                <div class="avatar-head-text">
+                  <div class="avatar-head-name" id="me-name">&nbsp;</div>
+                  <div class="avatar-head-role" id="me-role"></div>
+                </div>
+              </div>
+              <button type="button" class="avatar-menu-item" id="change-password-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                Đổi mật khẩu
+              </button>
+              <button type="button" class="avatar-menu-item" id="logout-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+                Đăng xuất
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chỉ xem: ẩn hết nút ghi rồi để trang trống thì khó hiểu — nói rõ họ đang
+         ở chế độ nào và làm gì nếu cần sửa. admin.js bật/tắt theo vai trò. -->
+    <!-- Tên đăng nhập của chính mình vừa bị tài khoản Chủ đổi. admin.js điền nội dung. -->
+    <div id="rename-banner" class="readonly-banner" hidden></div>
+
+    <div id="readonly-banner" class="readonly-banner" hidden>
+      Bạn đang ở chế độ <strong>Chỉ xem</strong>. Có thể xem mọi nội dung và thống kê,
+      nhưng không sửa được. Cần sửa thì liên hệ quản lý.
+    </div>
+
+    <div class="content">
+
+      <!-- ===================== VIEW: TRANG CHỦ ===================== -->
+      <section class="view active" id="view-home">
+
+        <!-- Dải "hành trình thuyết minh": ba bước của hệ thống, kèm số liệu thật.
+             Giữ id stat-total-zones / stat-total-exhibits cho renderHome().
+             Kiểu dáng: phongCachTrinhDien.css (.journey). -->
+        <section class="journey" aria-labelledby="journey-title">
+          <div class="journey-head">
+            <div>
+              <h2 class="journey-title" id="journey-title">Hành trình {thuyetMinh}</h2>
+              <p class="journey-lead">Mỗi {nhom} có một beacon. Khi {khach} mang {thietBi} đến gần, {muc} của {nhom} đó tự phát — bằng ngôn ngữ {khach} đã chọn.</p>
+            </div>
+          </div>
+          <ol class="journey-steps">
+            <li class="journey-step" id="journey-step-zones">
+              <span class="journey-num" aria-hidden="true">1</span>
+              <h3 class="journey-name">{Nhom}</h3>
+              <p class="journey-desc">Không gian đặt beacon: một phòng, một gian, một điểm dừng chân.</p>
+              <div class="journey-count"><span class="stat-value" id="stat-total-zones">—</span><span class="stat-label">{nhom}</span></div>
+              <button type="button" class="journey-link" data-di-toi="videos">Quản lý {nhom}</button>
+            </li>
+            <li class="journey-step" id="journey-step-items">
+              <span class="journey-num" aria-hidden="true">2</span>
+              <h3 class="journey-name">{Muc}</h3>
+              <p class="journey-desc">Ảnh, lời {thuyetMinh} và âm thanh cho từng điểm trong {nhom}.</p>
+              <div class="journey-count"><span class="stat-value" id="stat-total-exhibits">—</span><span class="stat-label">{muc}</span></div>
+              <button type="button" class="journey-link" data-di-toi="search">Tìm {muc}</button>
+            </li>
+            <li class="journey-step is-live" id="journey-step-devices">
+              <span class="journey-num" aria-hidden="true">3</span>
+              <h3 class="journey-name">{ThietBi}</h3>
+              <p class="journey-desc">Tự tải bản mới nhất và phát {thuyetMinh} khi {khach} bước vào {nhom}.</p>
+              <div class="journey-count"><span class="stat-value" id="stat-total-langs">—</span><span class="stat-label">ngôn ngữ</span></div>
+              <button type="button" class="journey-link" data-di-toi="static-content">Xem lịch sử đóng gói</button>
+            </li>
+          </ol>
+        </section>
+
+        <!-- Việc dịch còn thiếu — đọc GET /language-coverage, vẽ bởi veViecDichTrangChu(). -->
+        <section class="card panel" id="viec-dich-card" style="margin-bottom:20px;" hidden>
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Việc dịch còn thiếu</div>
+              <div class="form-hint" style="padding-top:3px;">Chỗ nào chưa dịch thì máy tablet hiện bằng ngôn ngữ mặc định.</div>
+            </div>
+          </div>
+          <div id="viec-dich-noi-dung"></div>
+        </section>
+
+        <!-- Tình trạng vận hành: những thứ hỏng im lặng trên VPS (CLAUDE.md §5.28) -->
+        <section class="ops-grid" id="ops-grid" aria-live="polite">
+          <div class="card ops-card" id="ops-backup"><div class="ops-head"><span class="ops-dot"></span><span class="ops-title">Sao lưu</span></div><div class="ops-main">Đang tải…</div><div class="ops-sub"></div></div>
+          <div class="card ops-card" id="ops-disk"><div class="ops-head"><span class="ops-dot"></span><span class="ops-title">Ổ đĩa máy chủ</span></div><div class="ops-main">Đang tải…</div><div class="ops-sub"></div></div>
+          <div class="card ops-card" id="ops-devices"><div class="ops-head"><span class="ops-dot"></span><span class="ops-title">{ThietBi}</span></div><div class="ops-main">Đang tải…</div><div class="ops-sub"></div></div>
+          <div class="card ops-card" id="ops-publish"><div class="ops-head"><span class="ops-dot"></span><span class="ops-title">Phát hành nội dung</span></div><div class="ops-main">Đang tải…</div><div class="ops-sub"></div><div class="ops-actions"></div></div>
+        </section>
+
+        <section class="chart-grid chart-grid-home">
+          <div class="card chart-card">
+            <div class="chart-head">
+              <div>
+                <div class="chart-title">{Muc} theo ngôn ngữ</div>
+                <div class="chart-sub">Đủ ngôn ngữ / Thiếu ngôn ngữ</div>
+              </div>
+            </div>
+            <div class="donut-wrap">
+              <div class="donut" id="status-donut">
+                <div class="donut-center">
+                  <div class="num" id="donut-percent">—</div>
+                  <div class="lbl">Đủ ngôn ngữ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card chart-card">
+            <div class="chart-head">
+              <div>
+                <div class="chart-title">Độ phủ theo từng ngôn ngữ</div>
+                <div class="chart-sub">Số {muc} đã có audio {thuyetMinh} / tổng số {muc}</div>
+              </div>
+            </div>
+            <div class="lang-coverage-list" id="lang-coverage-list"></div>
+          </div>
+        </section>
+
+        <section class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">{Muc} gần đây</div>
+            <div class="panel-action" data-act="view" data-view="search">Xem tất cả</div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Mã</th><th>{Muc}</th><th>Ngôn ngữ</th></tr>
+            </thead>
+            <tbody id="top-artifacts-body"></tbody>
+          </table>
+        </section>
+
+        <section class="card panel" id="devices-panel" style="margin-top: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">{ThietBi}</div>
+            <button type="button" class="btn btn-outline" data-act="ops-tai-lai">Tải lại</button>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 12px;">
+            Mỗi máy tự gửi số liệu về sau mỗi chuyến tham quan, khi được cắm sạc lại. Máy im lặng
+            quá 1 ngày hiện màu vàng, quá 3 ngày hiện màu đỏ — thường là hỏng chỗ sạc, mất Wi-Fi,
+            hoặc máy đã bị cất đi. Đặt tên (vd "Máy số 3 – tầng 2") để biết máy nào là máy nào.
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>Trạng thái</th><th>Tên máy</th><th>Lần gửi số liệu cuối</th><th>Lần khách dùng cuối</th><th>Số lượt gửi</th><th></th></tr>
+              </thead>
+              <tbody id="devices-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- ===================== VIEW: QUẢN LÝ KHU VỰC / HIỆN VẬT (CRUD) ===================== -->
+      <section class="view" id="view-videos">
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">Danh sách {nhom} &amp; {muc}</div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-outline" data-act="sap-xep-khu-vuc" data-need-level="editor" hidden>Sắp xếp {nhom}</button>
+              <button type="button" class="btn btn-primary" id="content-zone-add-btn" data-need-level="editor" hidden>+ Thêm {nhom}</button>
+            </div>
+          </div>
+          <div id="content-zones-list" style="padding: 8px 4px;"></div>
+        </section>
+
+        <section class="card panel" style="margin-top: 12px; margin-bottom: 20px;" data-need-role="owner" hidden>
+          <div class="panel-head">
+            <div class="panel-title">Nhập gói nội dung (ZIP)</div>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 8px;">
+            Chọn file ZIP chứa <code>manifest.json</code> ở thư mục gốc, kèm 2 thư mục
+            <code>images/</code> và <code>audio/</code> (đúng cấu trúc như khi đóng gói).
+            Nhập vào sẽ <strong>thay thế toàn bộ</strong> nội dung hiện tại ({nhom}, {muc}, ngôn ngữ, chuỗi giao diện, ảnh, audio) bằng đúng nội dung trong gói — số
+            ngôn ngữ tự động theo gói mới, không giới hạn theo cấu hình cũ. Có sao lưu nội
+            dung cũ trước khi ghi đè.
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label>File ZIP</label>
+              <input class="form-control" type="file" id="import-package-file" accept=".zip">
+            </div>
+          </div>
+          <div class="form-msg" id="import-package-msg" style="padding: 0 4px;"></div>
+          <div class="form-actions" style="padding: 4px;">
+            <button type="button" class="btn btn-primary" id="import-package-btn">Nhập gói nội dung</button>
+          </div>
+        </section>
+
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">Bản sao lưu dữ liệu</div>
+            <button type="button" class="btn btn-outline" id="data-backup-now-btn" data-need-level="editor" hidden>Sao lưu ngay</button>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 8px;">
+            Server tự lưu 1 bản mỗi khi thêm hoặc xóa ngôn ngữ, hoặc bấm "Sao lưu ngay" để
+            tạo bản sao lưu toàn bộ dữ liệu ({nhom}, {muc}, ảnh, audio) bất cứ lúc nào.
+            Chọn 1 bản rồi bấm "Áp dụng" để khôi phục lại — thao tác này ghi đè toàn bộ nội
+            dung hiện tại về đúng lúc sao lưu, mọi thay đổi sau đó sẽ mất, không hoàn tác
+            được. Chỉ giữ tối đa 10 bản gần nhất, bản cũ hơn tự động bị dọn bớt.
+          </div>
+          <div id="language-backups-warn" style="padding: 0 4px;"></div>
+          <div class="form-group" style="padding: 0 4px;">
+            <label>Chọn bản sao lưu</label>
+            <select class="form-control" id="language-backups-select"></select>
+          </div>
+          <div class="form-msg" id="language-backups-msg" style="padding: 0 4px;"></div>
+          <div class="form-actions" style="padding: 4px;">
+            <button type="button" class="btn btn-primary" id="language-backup-apply-btn" data-need-role="owner" hidden>Áp dụng bản đã chọn</button>
+            <button type="button" class="btn btn-danger" id="language-backup-delete-btn" data-need-role="owner" hidden>Xóa bản đã chọn</button>
+          </div>
+        </section>
+
+        <section class="card panel publish-panel" style="margin-top: 12px;">
+          <div class="publish-bar">
+            <div class="publish-text">
+              <div class="panel-title">Dữ liệu để trình chiếu</div>
+              <div class="publish-info" id="static-content-status">Đang tải thông tin...</div>
+            </div>
+            <button type="button" class="btn btn-primary" id="static-content-rebuild-btn" data-need-level="editor" hidden>Đóng gói dữ liệu</button>
+          </div>
+          <div class="publish-info" id="static-content-result" style="margin-top: 10px;"></div>
+          <div class="publish-hold" id="publish-hold-box"></div>
+        </section>
+
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">Kiểm tra tính toàn vẹn dữ liệu</div>
+            <button type="button" class="btn btn-primary" id="integrity-check-btn">Kiểm tra ngay</button>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 8px;">
+            Quét toàn bộ {nhom}/{muc}: phát hiện file ảnh/audio bị thiếu trên đĩa, file
+            rác không còn được dùng đến, trùng mã major/minor, và các trường bắt buộc còn
+            thiếu ở ngôn ngữ mặc định.
+          </div>
+          <div id="integrity-check-summary" style="padding: 0 4px 8px; display:none;"></div>
+          <div id="integrity-check-results" style="padding: 0 4px;"></div>
+        </section>
+
+
+      </section>
+
+      <!-- ===================== VIEW: TÌM KIẾM HIỆN VẬT / KHU VỰC ===================== -->
+      <section class="view" id="view-search">
+        <section class="card filter-bar">
+          <div class="search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="text" id="content-search-input" placeholder="Tìm theo tên {nhom} hoặc {muc}...">
+          </div>
+        </section>
+
+        <div style="display:flex; gap:8px; margin-bottom:16px;">
+          <button type="button" class="btn btn-outline search-tab-btn active" data-search-tab="zones" id="search-tab-zones-btn">{Nhom}</button>
+          <button type="button" class="btn btn-outline search-tab-btn" data-search-tab="exhibits" id="search-tab-exhibits-btn">{Muc}</button>
+        </div>
+
+        <section class="card panel" id="search-zones-panel">
+          <div class="panel-head">
+            <div class="panel-title">{Nhom}</div>
+            <div class="panel-action" id="content-search-count">0 kết quả</div>
+          </div>
+          <div id="content-search-zones-list" style="padding: 8px 4px;"></div>
+        </section>
+
+        <section class="card panel" id="search-exhibits-panel" style="display:none;">
+          <div class="panel-head">
+            <div class="panel-title">{Muc}</div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Major:Minor</th><th>Tên {muc}</th><th>Thuộc {nhom}</th><th></th></tr>
+            </thead>
+            <tbody id="content-search-exhibits-body"></tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ===================== VIEW: LỊCH SỬ ĐÓNG GÓI ===================== -->
+      <section class="view" id="view-static-content">
+        <section class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Lịch sử đóng gói</div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>Thời gian</th><th>bundleVersion</th><th>Kích thước</th><th>SHA256</th><th></th></tr>
+            </thead>
+            <tbody id="pack-history-body"></tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ===================== VIEW: GIAO DIỆN ỨNG DỤNG (chuỗi ui[]) ===================== -->
+      <section class="view" id="view-ui-strings">
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">Quản lý ngôn ngữ</div>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 8px;">
+            Ngôn ngữ khai báo ở đây quyết định app hiện nút chọn ngôn ngữ nào, và số cột
+            ngôn ngữ trong form chuỗi giao diện bên dưới + form {nhom}/{muc} ở
+            "Quản lý nội dung". Xóa 1 ngôn ngữ khỏi danh sách sẽ xóa vĩnh viễn nội dung đã
+            nhập của ngôn ngữ đó (kể cả file audio) — server tự sao lưu trước khi xóa,
+            xem mục "Bản sao lưu dữ liệu" ở tab "Quản lý nội dung" nếu cần khôi phục.
+          </div>
+          <div id="languages-list" style="padding: 4px; display:flex; flex-direction:column; gap:8px; margin-bottom:12px;"></div>
+          <!-- Thêm/xóa ngôn ngữ nằm trong OWNER_ONLY ở routes/adminContent.js nên
+               chỉ vai trò Chủ mới thấy khối này. Danh sách ngôn ngữ bên trên vẫn
+               hiện cho mọi vai trò — đọc được thì cứ cho đọc. -->
+          <div data-need-role="owner" hidden>
+            <div class="form-row" style="padding: 0 4px;">
+              <div class="form-group">
+                <label>Thêm ngôn ngữ (mã 2-3 chữ, vd zh, ja, fr)</label>
+                <input class="form-control" type="text" id="lang-add-code" maxlength="3" placeholder="zh">
+              </div>
+              <div class="form-group">
+                <label>Tên hiển thị</label>
+                <input class="form-control" type="text" id="lang-add-name" placeholder="中文">
+              </div>
+            </div>
+            <div class="form-msg" id="languages-msg" style="padding: 0 4px;"></div>
+            <div class="form-actions" style="padding: 4px;">
+              <button type="button" class="btn btn-outline" id="lang-add-btn">+ Thêm ngôn ngữ</button>
+              <button type="button" class="btn btn-primary" id="lang-save-btn">Lưu danh sách ngôn ngữ</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Độ đầy đủ theo ngôn ngữ: CHỈ ĐỌC. Ngôn ngữ thiếu không phải lỗi (app tự lùi về
+             ngôn ngữ mặc định) nên Kiểm tra toàn vẹn không báo — bảng này cho biết còn thiếu
+             bao nhiêu. Chỉ tính chữ; audio chỉ để tham khảo. -->
+        <section class="card panel" style="margin-bottom: 20px;" id="do-day-du-panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Độ đầy đủ theo ngôn ngữ</div>
+              <div class="form-hint" style="padding-top:3px;">Phần chữ của từng {nhom} và {muc} đã có ở các ngôn ngữ khác chưa. Ô nào để trống thì máy tablet hiện bằng ngôn ngữ mặc định.</div>
+            </div>
+            <button type="button" class="btn btn-outline" data-act="do-day-du-tai">Tải lại</button>
+          </div>
+          <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap; margin:0 0 10px;">
+            <label class="check-row" style="margin:0;"><input type="checkbox" id="do-day-du-chi-thieu" checked><span>Chỉ hiện những chỗ còn thiếu</span></label>
+            <label style="display:flex; gap:6px; align-items:center;">Ngôn ngữ cần dịch
+              <select class="form-control" id="do-day-du-ngon-ngu" style="width:auto;"><option value="">Tất cả</option></select>
+            </label>
+          </div>
+          <div id="do-day-du-noi-dung"><div style="color:var(--muted); padding:8px 4px;">Đang tải...</div></div>
+        </section>
+
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">Tên {donVi}</div>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 8px;">
+            Hiện trên màn hình chào của app, trên tiêu đề trang quản trị, làm tên người gửi thư
+            và tên trong ứng dụng xác thực. Ngôn ngữ mặc định là bắt buộc.
+          </div>
+          <div class="form-row" id="museum-name-fields" style="padding: 0 4px; flex-wrap: wrap;"></div>
+          <div class="form-msg" id="museum-name-msg" style="padding: 0 4px;"></div>
+          <div class="form-actions" style="padding: 4px;">
+            <button type="button" class="btn btn-primary" id="museum-name-save-btn" data-need-level="editor" hidden>Lưu tên {donVi}</button>
+          </div>
+        </section>
+
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">Cấu hình nâng cao (tùy chọn)</div>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 8px;">
+            Để trống ô nào thì app tự dùng giá trị mặc định sẵn có, không lỗi gì cả.
+            Chỉ điền khi muốn tinh chỉnh khác mặc định.
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label>Thời gian xác nhận đổi {nhom} (giây, 1-30, mặc định app tự chọn)</label>
+              <input class="form-control" type="number" min="1" max="30" step="1" id="beacon-zoneChangeConfirmSeconds" placeholder="vd 20">
+            </div>
+            <div class="form-group">
+              <label>Path loss exponent (0.5-6, mặc định 2.5)</label>
+              <input class="form-control" type="number" min="0.5" max="6" step="0.1" id="beacon-pathLossExponent" placeholder="2.5">
+            </div>
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label>Kalman process noise (0-10, mặc định 0.008)</label>
+              <input class="form-control" type="number" min="0" max="10" step="0.001" id="beacon-kalmanProcessNoise" placeholder="0.008">
+            </div>
+            <div class="form-group">
+              <label>Kalman measurement noise (0-100, mặc định 4.0)</label>
+              <input class="form-control" type="number" min="0" max="100" step="0.1" id="beacon-kalmanMeasurementNoise" placeholder="4.0">
+            </div>
+          </div>
+
+          <div class="form-hint" style="padding: 12px 4px 8px; border-top: 1px solid var(--border); margin-top: 4px;">
+            ⚠️ Các trường bên dưới là <strong>bắt buộc</strong> đối với app (không được để trống) — nhập sai định dạng hoặc để trống sẽ không lưu được.
+            <code>uuid</code> phải khớp đúng với UUID cấu hình trên phần cứng beacon thật, còn <code>deskMajor</code> là major riêng cho beacon đặt ở bàn lễ tân (không được trùng major của bất kỳ {nhom} nào).
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label><code>uuid</code> — mã UUID của beacon (bắt buộc)</label>
+              <input class="form-control" type="text" id="beacon-uuid" placeholder="4d6fc88b-be75-6698-da48-6866a36ec78e">
+            </div>
+            <div class="form-group">
+              <label><code>deskMajor</code> — major của beacon bàn lễ tân (bắt buộc, 1-65535)</label>
+              <input class="form-control" type="number" min="1" max="65535" step="1" id="beacon-deskMajor" placeholder="99">
+            </div>
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label><code>minDeltaDb</code> — chênh lệch RSSI tối thiểu để chuyển {nhom} (dB, bắt buộc, 3-20)</label>
+              <input class="form-control" type="number" min="3" max="20" step="0.1" id="beacon-minDeltaDb" placeholder="5">
+            </div>
+            <div class="form-group">
+              <label><code>dwellSeconds</code> — thời gian giữ chênh lệch trước khi chuyển hẳn (giây, bắt buộc, 1-30)</label>
+              <input class="form-control" type="number" min="1" max="30" step="0.1" id="beacon-dwellSeconds" placeholder="2">
+            </div>
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label><code>lockoutSeconds</code> — thời gian khóa, không xét chuyển {nhom} ngay sau khi vừa chuyển (giây, bắt buộc, 0-120)</label>
+              <input class="form-control" type="number" min="0" max="120" step="0.1" id="beacon-lockoutSeconds" placeholder="12">
+            </div>
+            <div class="form-group">
+              <label><code>zoneSilenceSeconds</code> — không nghe được beacon {nhom} hiện tại bao lâu thì chuyển về trạng thái chờ (giây, bắt buộc, 3-60)</label>
+              <input class="form-control" type="number" min="3" max="60" step="0.1" id="beacon-zoneSilenceSeconds" placeholder="8">
+            </div>
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label><code>deskDwellSeconds</code> — thời gian ở bàn lễ tân trước khi tự kết thúc tour (giây, bắt buộc, 5-120)</label>
+              <input class="form-control" type="number" min="5" max="120" step="0.1" id="beacon-deskDwellSeconds" placeholder="10">
+            </div>
+            <div class="form-group">
+              <label><code>sessionSilenceMinutes</code> — không nghe được beacon nào bao lâu thì ngắt cả phiên tham quan (phút, bắt buộc, 2-60)</label>
+              <input class="form-control" type="number" min="2" max="60" step="0.1" id="beacon-sessionSilenceMinutes" placeholder="10">
+            </div>
+          </div>
+          <div class="form-row" style="padding: 0 4px;">
+            <div class="form-group">
+              <label><code>engageAtMeters</code> — khoảng cách ước lượng để 1 {nhom} trở thành {nhom} hiện tại (mét, tùy chọn, 1-30)</label>
+              <input class="form-control" type="number" min="1" max="30" step="0.1" id="beacon-engageAtMeters" placeholder="4">
+            </div>
+            <div class="form-group">
+              <label><code>releaseAtMeters</code> — khoảng cách ước lượng để rời khỏi {nhom} hiện tại (mét, tùy chọn, 2-50, phải lớn hơn engageAtMeters ít nhất 1)</label>
+              <input class="form-control" type="number" min="2" max="50" step="0.1" id="beacon-releaseAtMeters" placeholder="7">
+            </div>
+          </div>
+
+          <div class="form-msg" id="beacon-config-msg" style="padding: 0 4px;"></div>
+          <div class="form-actions" style="padding: 4px;">
+            <button type="button" class="btn btn-primary" id="beacon-config-save-btn" data-need-level="editor" hidden>Lưu cấu hình nâng cao</button>
+          </div>
+        </section>
+
+        <div id="ui-strings-groups"></div>
+
+        <div class="form-actions" style="padding: 4px; margin-bottom: 24px; align-items: center; gap: 14px;">
+          <button type="button" class="btn btn-primary" id="ui-strings-save-btn" data-need-level="editor" hidden>Lưu chuỗi giao diện</button>
+          <div class="form-msg" id="ui-strings-msg"></div>
+        </div>
+      </section>
+
+      <!-- ===================== VIEW: THỐNG KÊ (hành vi khách tham quan) ===================== -->
+      <!-- ===================== VIEW: NHẬT KÝ THAO TÁC + HOÀN TÁC ===================== -->
+      <section class="view" id="view-history">
+        <section class="card panel">
+          <div class="panel-head">
+            <div class="panel-title">Nhật ký thao tác</div>
+            <button type="button" class="btn btn-outline" id="history-reload-btn">Tải lại</button>
+          </div>
+          <div class="form-hint" style="padding: 0 4px 12px;">
+            Ghi lại các thao tác thêm, sửa, xóa gần đây. Bấm <strong>Hoàn tác</strong> để đưa nội dung
+            trở lại đúng như trước thao tác đó — cả phần chữ lẫn ảnh và audio đã bị thay hoặc xóa.
+            Vì các thao tác chồng lên nhau, hoàn tác một thao tác cũ sẽ hoàn tác luôn những thao tác
+            sau nó; hệ thống sẽ báo rõ số lượng trước khi thực hiện. Chỉ 30 thao tác gần nhất được giữ lại.
+          </div>
+          <div id="history-list" style="padding: 0 4px;"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-analytics">
+        <div class="range-selector" id="analytics-range-selector">
+          <button type="button" class="range-btn" data-range="today">Hôm nay</button>
+          <button type="button" class="range-btn" data-range="7d">7 ngày</button>
+          <button type="button" class="range-btn" data-range="30d">30 ngày</button>
+          <button type="button" class="range-btn active" data-range="all">Tất cả</button>
+          <label class="range-month" title="Xem riêng một tháng (theo giờ {donVi}) — dùng cho báo cáo tháng">
+            <span>Theo tháng</span>
+            <input type="month" id="analytics-month" aria-label="Chọn tháng thống kê">
+          </label>
+        </div>
+
+        <section class="stat-grid">
+          <div class="card stat-card">
+            <div class="stat-value" id="analytics-stat-tours">0</div>
+            <div class="stat-label">Lượt tham quan</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="analytics-stat-duration">0</div>
+            <div class="stat-label">Thời lượng TB/lượt (phút)</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="analytics-stat-headphone">0%</div>
+            <div class="stat-label">Dùng tai nghe</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="analytics-stat-events">0</div>
+            <div class="stat-label">Tổng sự kiện ghi nhận</div>
+          </div>
+        </section>
+
+        <section class="chart-grid chart-grid-home">
+          <div class="card chart-card">
+            <div class="chart-head">
+              <div>
+                <div class="chart-title">{Nhom} khách ở lại lâu nhất</div>
+                <div class="chart-sub">Tổng thời gian dừng chân, theo {nhom}</div>
+              </div>
+            </div>
+            <div class="lang-coverage-list" id="analytics-zones-list"></div>
+          </div>
+
+          <div class="card chart-card">
+            <div class="chart-head">
+              <div>
+                <div class="chart-title">Ngôn ngữ tham quan phổ biến</div>
+                <div class="chart-sub">Ngôn ngữ chọn lúc bắt đầu tour</div>
+              </div>
+            </div>
+            <div class="lang-coverage-list" id="analytics-language-list"></div>
+          </div>
+        </section>
+
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">Lý do kết thúc tour</div>
+          </div>
+          <div class="lang-coverage-list" id="analytics-end-reason-list" style="padding: 4px;"></div>
+        </section>
+
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">{Muc} nghe nhiều nhất</div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>{Muc}</th><th>{Nhom}</th><th>Lượt nghe</th><th>TB nghe</th><th>% nghe hết</th></tr>
+            </thead>
+            <tbody id="analytics-top-exhibits-body"></tbody>
+          </table>
+        </section>
+
+        <section class="card panel" style="margin-bottom: 20px;">
+          <div class="panel-head">
+            <div class="panel-title">{Muc} nghe ít nhất / chưa ai nghe</div>
+          </div>
+          <table>
+            <thead>
+              <tr><th>{Muc}</th><th>{Nhom}</th><th>Lượt nghe</th><th>TB nghe</th><th>% nghe hết</th></tr>
+            </thead>
+            <tbody id="analytics-bottom-exhibits-body"></tbody>
+          </table>
+        </section>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- Xem mô hình 3D — đặt ở cấp cao nhất, KHÔNG đặt trong .view: modal nằm trong
+     một phần tử bị ẩn (.view không .active) thì không bao giờ hiện ra được.
+     Khung <model-viewer> được TẠO BẰNG JS chứ không viết sẵn ở đây, vì custom
+     element chỉ tồn tại sau khi thư viện được nạp lười (xem admin.js). -->
+<div class="modal-overlay" id="m3d-view-overlay">
+  <div class="modal-card modal-card-wide">
+    <button type="button" class="modal-close" id="m3d-view-close">&times;</button>
+    <div class="modal-head">
+      <h2 class="modal-title" style="font-size: 22px;" id="m3d-view-title">Xem mô hình</h2>
+      <div class="guide-sub" id="m3d-view-sub"></div>
+    </div>
+    <!-- Nền SÁNG cố định, không theo bảng màu: mô hình 3D được chiếu sáng theo
+         môi trường, đặt trên nền tối thì chi tiết tối màu chìm hẳn và người
+         kiểm duyệt tưởng model hỏng. Cùng lý do với .qr-wrap ở users.html. -->
+    <div id="m3d-view-stage" style="background:#f2f2f4;border-radius:12px;min-height:360px;display:flex;align-items:center;justify-content:center;color:#666;">
+      Đang nạp bộ dựng 3D...
+    </div>
+    <div id="m3d-view-so-lieu"></div>
+  </div>
+</div>
+
+<!-- Modal thêm/sửa khu vực — đặt ở cấp cao nhất, cùng lý do với modal hiện vật
+     (transform của .view.active làm hỏng position:fixed nếu để bên trong). -->
+<div class="modal-overlay" id="content-zone-modal-overlay">
+  <div class="modal-card modal-card-wide">
+    <button type="button" class="modal-close" id="content-zone-modal-close">&times;</button>
+    <div class="modal-head">
+      <h2 class="modal-title" style="font-size: 22px;" id="content-zone-form-title">Thêm {nhom} mới</h2>
+      <div class="guide-sub" id="content-zone-modal-sub"></div>
+    </div>
+    <form class="beacon-form" id="content-zone-form">
+      <input type="hidden" id="content-zone-edit-id" value="">
+      <div class="form-group">
+        <label>Major (beacon)</label>
+        <input class="form-control" type="number" id="content-zone-major" min="1" max="65535" required>
+      </div>
+      <div class="form-group">
+        <label>Tên {nhom}</label>
+        <input class="form-control" type="text" id="content-zone-name" required>
+      </div>
+      <div class="form-group">
+        <label>Giới thiệu {nhom}</label>
+        <textarea class="form-control form-control-lg" id="content-zone-welcome"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Ảnh nền {nhom}</label>
+        <label class="dropzone">
+          <input class="dropzone-input" type="file" id="content-zone-hero-image" accept="image/*">
+          <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 18a4 4 0 01-.6-7.96A5 5 0 0116.9 8.02 4.5 4.5 0 0117.5 18H7z"/><path d="M12 12v7M9 15l3-3 3 3"/></svg>
+          <div class="dropzone-title">Kéo thả ảnh vào đây, hoặc bấm để chọn file</div>
+          <div class="dropzone-hint">JPG, PNG, WEBP...</div>
+        </label>
+        <small id="content-zone-hero-image-note" class="media-preview-note"></small>
+        <img id="content-zone-hero-image-preview" alt="" class="media-preview-img">
+      </div>
+      <div class="form-group">
+        <label>Audio giới thiệu {nhom} (mp3)</label>
+        <label class="dropzone">
+          <input class="dropzone-input" type="file" id="content-zone-intro-audio" accept="audio/*">
+          <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 18a4 4 0 01-.6-7.96A5 5 0 0116.9 8.02 4.5 4.5 0 0117.5 18H7z"/><path d="M12 12v7M9 15l3-3 3 3"/></svg>
+          <div class="dropzone-title">Kéo thả file audio vào đây, hoặc bấm để chọn file</div>
+          <div class="dropzone-hint">Chỉ nhận file .mp3</div>
+        </label>
+        <small id="content-zone-intro-audio-note" class="media-preview-note"></small>
+        <audio id="content-zone-intro-audio-preview" controls preload="metadata" class="media-preview-audio"></audio>
+      </div>
+      <div class="form-group">
+        <label>Lời thoại audio giới thiệu (transcript)</label>
+        <textarea class="form-control form-control-lg" id="content-zone-transcript" required></textarea>
+      </div>
+
+      <div id="content-zone-other-langs"></div>
+
+      <div class="form-group" id="content-zone-images-group">
+        <div class="form-group-head">
+          <label>Ảnh phụ {nhom} (gallery, tuỳ chọn)</label>
+        </div>
+        <div class="threshold-warn" style="margin-bottom:8px;">Máy tablet hiện <strong>chưa hiển thị</strong> ảnh phụ của {nhom} (chỉ dùng ảnh nền {nhom}). Ảnh tải lên đây vẫn nằm trong gói tải về nhưng máy không dùng tới.</div>
+        <div id="content-zone-images-panel"></div>
+      </div>
+
+      <div class="form-group" id="content-zone-audios-group">
+        <div class="form-group-head">
+          <label>Audio phụ {nhom} (tuỳ chọn)</label>
+        </div>
+        <div class="threshold-warn" style="margin-bottom:8px;">Máy tablet hiện <strong>chưa phát</strong> audio phụ — chỉ phát audio giới thiệu ở trên. File tải lên đây vẫn nằm trong gói tải về (làm gói nặng thêm) nhưng máy không dùng tới.</div>
+        <div id="content-zone-audios-panel"></div>
+      </div>
+
+      <div class="form-group" id="content-zone-videos-group">
+        <div class="form-group-head">
+          <label>Video đính kèm {nhom}</label>
+        </div>
+        <div class="threshold-warn" style="margin-bottom:8px;">Máy tablet hiện <strong>chưa phát</strong> video — video không được đóng gói gửi xuống máy. File tải lên đây chỉ lưu trên máy chủ.</div>
+        <div id="content-zone-videos-panel"></div>
+      </div>
+
+      <div class="form-msg" id="content-zone-form-msg"></div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="content-zone-submit-btn">Thêm {nhom}</button>
+        <button type="button" class="btn btn-outline" id="content-zone-cancel-btn" style="display:none;">Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal thêm/sửa hiện vật — đặt ở cấp cao nhất, KHÔNG đặt trong .view:
+     .view.active có animation fadeIn dùng transform, mà transform khác none tạo
+     containing block cho position:fixed => overlay bám theo view chứ không
+     phải viewport, hiện lệch hẳn. -->
+<div class="modal-overlay" id="content-exhibit-modal-overlay">
+  <div class="modal-card modal-card-wide">
+    <button type="button" class="modal-close" id="content-exhibit-modal-close">&times;</button>
+    <div class="modal-head">
+      <h2 class="modal-title" style="font-size: 22px;" id="content-exhibit-form-title">Thêm {muc}</h2>
+      <div class="guide-sub" id="content-exhibit-zone-banner"></div>
+    </div>
+    <form class="beacon-form" id="content-exhibit-form">
+        <input type="hidden" id="content-exhibit-zone-id" value="">
+        <input type="hidden" id="content-exhibit-edit-id" value="">
+        <div class="form-group">
+          <label>Minor (beacon)</label>
+          <input class="form-control" type="number" id="content-exhibit-minor" min="1" max="65535" required>
+        </div>
+        <div class="form-group">
+          <label>Tên {muc}</label>
+          <input class="form-control" type="text" id="content-exhibit-name" required>
+        </div>
+        <!-- Trạng thái biên tập (chỉ CMS dùng, app bỏ qua) — exhibit.listing.status. -->
+        <div class="listing-grid">
+          <div class="form-group">
+            <label for="content-exhibit-status">Trạng thái biên tập</label>
+            <select class="form-control" id="content-exhibit-status"></select>
+          </div>
+        </div>
+        <!-- Trường thông tin tự định nghĩa (giá, diện tích, niên đại, chất liệu...) — vẽ bởi
+             veTruongForm() trong admin.js theo bộ trường Chủ cài ở users.html. Trường bật
+             "hiện cho khách" được máy chủ chép thành dòng đầu bảng Thông số (customFields.js). -->
+        <div class="truong-tt" id="content-exhibit-fields" hidden></div>
+        <div class="form-group">
+          <label>Tóm tắt</label>
+          <textarea class="form-control form-control-lg" id="content-exhibit-summary" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Ý nghĩa (tuỳ chọn)</label>
+          <textarea class="form-control form-control-lg" id="content-exhibit-meaning"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Ảnh {muc}</label>
+          <label class="dropzone">
+            <input class="dropzone-input" type="file" id="content-exhibit-image" accept="image/*">
+            <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 18a4 4 0 01-.6-7.96A5 5 0 0116.9 8.02 4.5 4.5 0 0117.5 18H7z"/><path d="M12 12v7M9 15l3-3 3 3"/></svg>
+            <div class="dropzone-title">Kéo thả ảnh vào đây, hoặc bấm để chọn file</div>
+            <div class="dropzone-hint">JPG, PNG, WEBP...</div>
+          </label>
+          <small id="content-exhibit-image-note" class="media-preview-note"></small>
+          <img id="content-exhibit-image-preview" alt="" class="media-preview-img">
+        </div>
+        <!-- Mô hình 3D: tải file .glb NGAY TẠI ĐÂY (không còn trang "Mô hình 3D" riêng).
+             Chọn file là máy chủ kiểm ngân sách ngay; file chỉ được lưu khi bấm nút lưu
+             của cả biểu mẫu (xem guiMoHinhSauKhiLuu trong admin.js). -->
+        <div class="form-group" id="content-exhibit-model-group">
+          <label>Mô hình 3D (.glb, tuỳ chọn)</label>
+          <div id="content-exhibit-glb-hien-tai"></div>
+          <label class="dropzone">
+            <input class="dropzone-input" type="file" id="content-exhibit-glb" accept=".glb,model/gltf-binary">
+            <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l9 5v10l-9 5-9-5V7l9-5z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/></svg>
+            <div class="dropzone-title" id="content-exhibit-glb-title">Kéo thả file .glb vào đây, hoặc bấm để chọn file</div>
+            <div class="dropzone-hint">Máy chủ tự kiểm xem mô hình có quá nặng với máy tablet không</div>
+          </label>
+          <div id="content-exhibit-glb-kham"></div>
+        </div>
+        <div class="form-group">
+          <label>Audio {thuyetMinh} (mp3)</label>
+          <label class="dropzone">
+            <input class="dropzone-input" type="file" id="content-exhibit-audio" accept="audio/*">
+            <svg class="dropzone-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 18a4 4 0 01-.6-7.96A5 5 0 0116.9 8.02 4.5 4.5 0 0117.5 18H7z"/><path d="M12 12v7M9 15l3-3 3 3"/></svg>
+            <div class="dropzone-title">Kéo thả file audio vào đây, hoặc bấm để chọn file</div>
+            <div class="dropzone-hint">Chỉ nhận file .mp3</div>
+          </label>
+          <small id="content-exhibit-audio-note" class="media-preview-note"></small>
+          <audio id="content-exhibit-audio-preview" controls preload="metadata" class="media-preview-audio"></audio>
+        </div>
+        <div class="form-group">
+          <label>Lời {thuyetMinh} (transcript)</label>
+          <textarea class="form-control form-control-lg" id="content-exhibit-transcript" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-head">
+            <label>Thông số khác (tự gõ, tuỳ chọn)</label>
+            <button type="button" class="clear-images-btn" id="content-exhibit-spec-add-btn">+ Thêm dòng</button>
+          </div>
+          <div id="content-exhibit-specs-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+          <div class="form-hint">Dòng thông số riêng cho {muc} này, ngoài các trường ở phần Thông tin chi tiết. VD: nhãn "Ghi chú" — giá trị "Bản phục dựng".</div>
+        </div>
+
+        <div id="content-exhibit-other-langs"></div>
+
+        <div class="form-group" id="content-exhibit-images-group">
+          <div class="form-group-head">
+            <label>Ảnh phụ {muc} (gallery, tuỳ chọn)</label>
+          </div>
+          <div id="content-exhibit-images-panel"></div>
+        </div>
+
+        <div class="form-group" id="content-exhibit-audios-group">
+          <div class="form-group-head">
+            <label>Audio phụ {muc} (tuỳ chọn)</label>
+          </div>
+          <div class="threshold-warn" style="margin-bottom:8px;">Máy tablet hiện <strong>chưa phát</strong> audio phụ — chỉ phát audio {thuyetMinh} chính. File tải lên đây vẫn nằm trong gói tải về (làm gói nặng thêm) nhưng máy không dùng tới.</div>
+          <div id="content-exhibit-audios-panel"></div>
+        </div>
+
+        <div class="form-group" id="content-exhibit-videos-group">
+          <div class="form-group-head">
+            <label>Video đính kèm {muc}</label>
+          </div>
+          <div class="threshold-warn" style="margin-bottom:8px;">Máy tablet hiện <strong>chưa phát</strong> video — video không được đóng gói gửi xuống máy. File tải lên đây chỉ lưu trên máy chủ.</div>
+          <div id="content-exhibit-videos-panel"></div>
+        </div>
+
+        <div class="form-msg" id="content-exhibit-form-msg"></div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="content-exhibit-submit-btn">Thêm {muc}</button>
+          <button type="button" class="btn btn-outline" id="content-exhibit-preview-btn" title="Xem nội dung đang nhập trông thế nào trên máy tablet — chưa cần lưu">Xem trước trên máy</button>
+          <button type="button" class="btn btn-outline" id="content-exhibit-cancel-btn">Hủy</button>
+        </div>
+    </form>
+  </div>
+</div>
+
+<!-- Xem trước hiện vật như trên máy tablet (admin.js: khối "XEM TRƯỚC"). Dựng từ CHÍNH
+     các ô đang nhập trong biểu mẫu, chưa cần lưu. Quy tắc định dạng chữ phải khớp
+     beacon-client/lib/presentation/widgets/rich_body_text.dart. -->
+<div class="modal-overlay" id="xt-overlay">
+  <div class="modal-card xt-card">
+    <button type="button" class="modal-close" id="xt-close">&times;</button>
+    <div class="modal-head">
+      <h2 class="modal-title" style="font-size: 20px;">Xem trước trên máy tablet</h2>
+      <div class="guide-sub">Dựng từ nội dung đang nhập, chưa lưu. Hình dáng gần đúng, phông và màu có thể khác máy thật.</div>
+    </div>
+    <div class="xt-langs" id="xt-langs" role="tablist"></div>
+    <div class="xt-phone"><div class="xt-screen" id="xt-screen"></div></div>
+    <div class="form-hint" id="xt-note" style="margin-top:10px;"></div>
+  </div>
+</div>
+
+<!-- Hộp xác nhận dùng chung (thay cho confirm() mặc định của trình duyệt) -->
+<!-- Hộp thoại dùng chung cho "Chuyển khu vực" và "Sắp xếp" (admin.js: moTienIch). -->
+<div class="modal-overlay" id="tien-ich-overlay">
+  <div class="modal-card" style="max-width: 560px;" id="tien-ich-card"></div>
+</div>
+
+<div class="modal-overlay" id="confirm-modal-overlay">
+  <div class="modal-card" style="max-width: 440px;">
+    <div class="modal-head">
+      <h2 class="modal-title" style="font-size: 20px;" id="confirm-modal-title">Xác nhận</h2>
+    </div>
+    <div id="confirm-modal-message" style="font-size: 13.5px; line-height: 1.65; color: var(--text); white-space: pre-line; margin-bottom: 22px;"></div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-primary" id="confirm-modal-ok">Đồng ý</button>
+      <button type="button" class="btn btn-outline" id="confirm-modal-cancel">Hủy</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal đổi mật khẩu -->
+<div class="modal-overlay" id="password-modal-overlay">
+  <div class="modal-card" style="max-width: 420px;">
+    <button type="button" class="modal-close" id="password-modal-close">&times;</button>
+    <div class="modal-head">
+      <h2 class="modal-title" style="font-size: 20px;">Đổi mật khẩu quản trị</h2>
+    </div>
+    <div class="form-group" style="margin-bottom: 12px;">
+      <label>Mật khẩu hiện tại</label>
+      <div class="pw-wrap">
+        <input class="form-control" type="password" id="password-current" autocomplete="current-password">
+        <button type="button" class="pw-eye-btn" data-target="password-current" aria-label="Hiện/ẩn mật khẩu"></button>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 12px;">
+      <label>Mật khẩu mới (tối thiểu 8 ký tự)</label>
+      <div class="pw-wrap">
+        <input class="form-control" type="password" id="password-new" autocomplete="new-password">
+        <button type="button" class="pw-eye-btn" data-target="password-new" aria-label="Hiện/ẩn mật khẩu"></button>
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom: 12px;">
+      <label>Nhập lại mật khẩu mới</label>
+      <div class="pw-wrap">
+        <input class="form-control" type="password" id="password-confirm" autocomplete="new-password">
+        <button type="button" class="pw-eye-btn" data-target="password-confirm" aria-label="Hiện/ẩn mật khẩu"></button>
+      </div>
+    </div>
+    <div class="form-msg" id="password-modal-msg"></div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-primary" id="password-save-btn">Lưu mật khẩu mới</button>
+    </div>
+  </div>
+</div>
+
+<!-- Beacon detail modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card">
+    <button type="button" class="modal-close" id="modal-close">&times;</button>
+    <div class="modal-head">
+      <div class="modal-head-top">
+        <span class="beacon-chip" id="modal-chip"></span>
+        <span class="badge" id="modal-status"></span>
+      </div>
+      <h2 class="modal-title" id="modal-name"></h2>
+    </div>
+    <div class="modal-grid">
+      <div class="modal-field"><label id="modal-major-label">Major</label><div class="value mono" id="modal-major"></div></div>
+      <div class="modal-field"><label id="modal-minor-label">Minor</label><div class="value mono" id="modal-minor"></div></div>
+      <div class="modal-field"><label id="modal-created-label">{Nhom}</label><div class="value mono" id="modal-created"></div></div>
+    </div>
+    <div class="modal-image-gallery" id="modal-image-gallery"></div>
+    <div id="modal-model-wrap"></div>
+    <div class="modal-field" style="margin-bottom:18px;">
+      <label id="modal-meaning-label">Ý nghĩa {muc}</label>
+      <div class="value" id="modal-meaning"></div>
+    </div>
+    <div class="modal-field" style="margin-bottom:18px;">
+      <label id="modal-intro-label">Tóm tắt {muc}</label>
+      <div class="value" id="modal-intro"></div>
+    </div>
+    <div class="modal-video-wrap" id="modal-video-wrap"></div>
+    <div class="modal-audio-wrap" id="modal-audio-wrap"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+<script src="thuatNgu.js"></script>
+<script src="hoTro.js"></script>
+<script src="appearance.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

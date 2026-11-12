@@ -1,0 +1,311 @@
+:root {
+  /* Cùng bộ màu với phong cách "Trình diễn" của trang quản trị (phongCachTrinhDien.css). */
+  --bg: #f3f5f4;
+  --card: #ffffff;
+  --border: #d9e0de;
+  --gold: #0d7a72;
+  --gold2: #0a5f59;
+  --text: #1f2a30;
+  --muted: #56646b;
+  --ink: #18252c;
+  --signal: #e0a01b;
+  --red2: #bd271e;
+
+  --font-main: 'Be Vietnam Pro', sans-serif;
+  --font-head: 'Be Vietnam Pro', sans-serif;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-main);
+  overflow: hidden;
+}
+
+.stage {
+  position: relative;
+  width: 100%; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg);
+}
+/* Dải sóng mảnh chạy ngang giữa màn hình, sau thẻ đăng nhập — cùng họa tiết với dải
+   "hành trình" ở Trang chủ. Chỉ trang trí, không mang thông tin. */
+.stage::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 40px; transform: translateY(-50%);
+  background: var(--gold); opacity: .18; pointer-events: none;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'><path d='M0 20 h10 l5-12 l7 24 l7-30 l7 36 l7-26 l7 16 l5-8 h25' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/></svg>") repeat-x center / 80px 40px;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'><path d='M0 20 h10 l5-12 l7 24 l7-30 l7 36 l7-26 l7 16 l5-8 h25' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/></svg>") repeat-x center / 80px 40px;
+}
+.login-tagline {
+  position: absolute; left: 0; right: 0; bottom: 28px; text-align: center;
+  font-size: 13px; color: var(--muted); margin: 0; padding: 0 16px;
+}
+
+/* ---------- Reveal text ---------- */
+.reveal {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.reveal.hide { opacity: 0; transform: scale(0.94); pointer-events: none; }
+
+.letters { display: flex; }
+
+.letter {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: clamp(52px, 11vw, 140px);
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1;
+  padding: 0 clamp(2px, 0.4vw, 8px);
+  opacity: 0;
+  transform: scale(0);
+  animation: letter-pop 0.7s var(--spring) forwards;
+}
+
+@keyframes letter-pop {
+  0% { opacity: 0; transform: scale(0); }
+  55% { opacity: 1; transform: scale(1.18); }
+  75% { transform: scale(0.94); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* hover image-fill layer (mirrors framer-motion background-pan effect, pure CSS) */
+.letter .imgfill {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(100deg, var(--gold) 0%, var(--signal) 50%, var(--gold) 100%);
+  background-size: 300% 100%; background-position: 0% center;
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transition: opacity 0.15s var(--ease), background-position 3s var(--ease);
+  pointer-events: none;
+}
+.letter:hover .imgfill { opacity: 1; background-position: 12% center; }
+
+/* sweep overlay layer, triggered by JS after entrance settles */
+.letter .sweep {
+  position: absolute; inset: 0;
+  color: var(--gold);
+  opacity: 0;
+  pointer-events: none;
+}
+.letter.sweep-on .sweep {
+  animation: letter-sweep 0.45s var(--ease) forwards;
+  animation-delay: var(--sweep-delay, 0s);
+}
+@keyframes letter-sweep {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---------- Login card ---------- */
+.login-wrap {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+.login-wrap.show { opacity: 1; pointer-events: auto; }
+
+/* LƯU Ý: thuộc tính `hidden` của HTML chỉ là display:none ở bảng kiểu mặc
+   định của trình duyệt, nên .login-card{display:flex} bên dưới đè lên nó và thẻ
+   "ẩn" vẫn hiện. Đừng xóa dòng này (cùng lỗi đã gặp ở admin.css). */
+[hidden] { display: none !important; }
+
+.login-card {
+  width: min(380px, 90vw);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px 32px 30px;
+  box-shadow: 0 30px 70px rgba(26, 28, 33, 0.12);
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  transform: translateY(18px);
+  opacity: 0;
+  transition: transform 0.6s var(--spring), opacity 0.6s var(--ease);
+}
+.login-wrap.show .login-card { transform: translateY(0); opacity: 1; }
+
+.login-mark {
+  position: relative;
+  width: 46px; height: 46px; border-radius: 8px;
+  background: var(--ink);
+  color: #fff; font-family: var(--font-head); font-weight: 800; font-size: 22px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+
+.login-card h1 { font-family: var(--font-head); font-size: 21px; font-weight: 700; margin: 0 0 4px; }
+.login-sub { font-size: 12.5px; color: var(--muted); margin: 0 0 24px; line-height: 1.5; }
+
+/* ---------- Popup "Quên mật khẩu?" ---------- */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  /* 0.42 làm thẻ đăng nhập trắng phía sau chìm hẳn vào nền kem (chênh nhau chỉ
+     vài mức xám) — nhìn như cả trang biến mất. 0.32 + chút mờ thì vẫn còn thấy
+     mình đang đứng ở trang đăng nhập. */
+  background: rgba(26, 28, 33, 0.32);
+  backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: modal-in 0.22s var(--ease);
+}
+@keyframes modal-in { from { opacity: 0 } to { opacity: 1 } }
+
+.modal-card {
+  position: relative;
+  width: min(420px, 100%);
+  max-height: 90vh; overflow-y: auto;
+  background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+  padding: 30px 28px 24px; text-align: left;
+  box-shadow: 0 30px 70px rgba(26, 28, 33, 0.22);
+  animation: modal-pop 0.32s var(--spring);
+}
+@keyframes modal-pop { from { transform: translateY(14px) scale(0.97) } to { transform: none } }
+
+.modal-x {
+  position: absolute; top: 12px; right: 12px;
+  width: 30px; height: 30px; line-height: 1; font-size: 21px;
+  background: none; border: none; border-radius: 8px;
+  color: var(--muted); cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.modal-x:hover { background: var(--bg); color: var(--text); }
+
+.modal-icon {
+  width: 40px; height: 40px; border-radius: 6px; margin-bottom: 14px;
+  background: rgba(13, 122, 114, 0.14); color: var(--gold2);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.modal-card h2 {
+  font-family: var(--font-head); font-size: 20px; font-weight: 700;
+  margin: 0 0 8px; color: var(--text);
+}
+.modal-lead { font-size: 14px; line-height: 1.6; color: var(--text); margin: 0 0 18px; }
+.modal-lead strong { color: var(--gold2); }
+
+/* Ba bước có thứ tự thật - người dùng làm bước 1 xong mới tới bước 2. */
+.modal-steps {
+  list-style: none; counter-reset: step; padding: 0;
+  margin: 0 0 20px; display: flex; flex-direction: column; gap: 11px;
+}
+.modal-steps li {
+  counter-increment: step; position: relative; padding-left: 34px;
+  font-size: 13.5px; line-height: 1.55; color: var(--muted);
+}
+.modal-steps li::before {
+  content: counter(step); position: absolute; left: 0; top: 0;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--gold2); font-size: 11.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-steps strong { color: var(--text); font-weight: 600; }
+
+.modal-owner {
+  border-top: 1px solid var(--border); padding-top: 16px; margin-bottom: 18px;
+}
+.modal-owner p { font-size: 12.5px; color: var(--muted); margin: 0 0 9px; }
+.modal-owner em { font-style: normal; font-weight: 600; color: var(--text); }
+
+.btn-ghost {
+  width: 100%; padding: 10px 14px;
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  font-family: var(--font-main); font-size: 13px; font-weight: 600; color: var(--gold2);
+  cursor: pointer; transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.btn-ghost:hover { border-color: var(--gold); background: rgba(13, 122, 114, 0.07); }
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop, .modal-card { animation: none; }
+}
+
+/* Nút trông như đường dẫn — dùng <button> chứ không dùng <a href="#"> để
+   không nhảy trang khi bấm. */
+.link-btn {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font: inherit; color: var(--gold2, #0a5f59); font-weight: 600;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.link-btn:hover { opacity: 0.8; }
+
+#forgot-step2 { width: 100%; }
+#forgot-code { font-family: var(--font-mono, monospace); font-size: 20px; letter-spacing: 6px; text-align: center; }
+
+.field { width: 100%; text-align: left; margin-bottom: 14px; }
+.field label { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+.field input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+  padding: 11px 13px; color: var(--text); font-family: var(--font-main); font-size: 13.5px;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 4px 16px rgba(13, 122, 114, 0.14); }
+
+.pw-wrap { position: relative; }
+.pw-wrap input { padding-right: 40px; }
+.pw-eye-btn {
+  position: absolute; right: 3px; top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; border-radius: 8px; color: var(--muted); cursor: pointer;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.pw-eye-btn:hover { color: var(--gold2); background: rgba(13, 122, 114, 0.1); }
+.pw-eye-btn svg { width: 16px; height: 16px; }
+
+.login-link-btn {
+  background: none; border: none; color: var(--muted); font-size: 12px; margin-top: 12px;
+  cursor: pointer; text-decoration: underline; font-family: var(--font-main);
+}
+.login-link-btn:hover { color: var(--gold2); }
+
+.login-msg { min-height: 16px; font-size: 12px; color: var(--red2); margin-bottom: 10px; }
+/* Cùng ô đó dùng cho cả tin báo TỐT (đã gửi mã, đã đổi mật khẩu) — màu xanh để
+   không ai tưởng mình vừa làm sai gì. */
+.login-msg.ok { color: #2f8a5a; }
+
+.login-btn {
+  width: 100%; padding: 12px; border: none; border-radius: 6px;
+  background: var(--gold); color: #fff;
+  font-family: var(--font-main); font-size: 14px; font-weight: 700; letter-spacing: 0.2px;
+  cursor: pointer; transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.login-btn:hover { background: var(--gold2); }
+.login-btn:active { transform: translateY(0); }
+
+.login-card.shake { animation: shake 0.4s var(--ease); }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* Chỉ dẫn thay cho nút "Đổi mật khẩu" không cần đăng nhập (xem chú thích trong login.html) */
+.login-hint {
+  margin: 14px 0 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--muted, #56646b);
+}
+.login-hint strong { color: var(--gold2, #0a5f59); font-weight: 600; }
+
+/* Chấm hổ phách "đang phát" ở góc logo — giống logo thanh bên trang quản trị. */
+.login-mark::after {
+  content: ''; position: absolute; right: -4px; top: -4px; width: 11px; height: 11px;
+  border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 3px var(--card);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter, .letter .imgfill, .reveal, .login-wrap, .login-card { animation: none !important; transition: none !important; }
+}
