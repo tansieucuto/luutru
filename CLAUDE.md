@@ -1911,3 +1911,24 @@ specs mọi nội dung (1 dòng nhật ký, có hoàn tác; không đổi gì th
 
 **Giới hạn còn lại**: lựa chọn của trường `select` chỉ có một thứ tiếng (khách nước ngoài thấy chữ
 tiếng mặc định); chưa lọc/tìm theo khoảng giá trị; trường chỉ áp cho `{muc}`, chưa có cho `{nhom}`.
+
+### 5.34. Cài đặt app + chữ app bổ sung sửa được trên CMS (2026-11-13)
+
+Rà mã `beacon-client` (bản gộp trong `argon4_bundle.xml`) thấy app ĐỌC nhiều thứ trong manifest mà CMS
+không có chỗ sửa. Nay có 2 khung ở tab **Giao diện ứng dụng** (`public/caiDatApp.js`):
+
+1. **Cài đặt app trên điện thoại** — `GET/PUT /api/v1/admin/content/app-settings` (cuối
+   `routes/adminContent.js`): `policies` (loa ngoài / bắt buộc tai nghe / quay lại khu cũ có đọc lại),
+   `summary` (lời cảm ơn, góp ý, mã QR + link), `feedback` (thang điểm, câu hỏi, tối đa 8 lý do),
+   `menu` (chỉ bật/tắt Hướng dẫn — catalog/map/tours app chưa có màn), `farewell.autoReturnSeconds`,
+   `autoSyncHours`. Luật kiểm khớp `manifest_parser.dart`. ⚠ `policies` mặc định cũ
+   (`allowLoudspeaker:false` + `autoplayRequiresHeadphones:true`) = không cắm tai nghe là app IM LẶNG.
+2. **Chữ hiển thị trên app (bổ sung)** — 88 khóa `ui` app dùng mà form "Chuỗi giao diện" chưa có
+   (form cũ chỉ 95/172). Danh sách + chữ mặc định chép từ `ui_strings.dart` bản 14/10/2026; app mới hơn
+   có khóa mới thì dùng ô "Thêm khóa khác". Gửi qua `PUT /ui-strings` đúng các khóa của khung (máy chủ
+   gộp theo từng khóa, ô trống = xóa = app dùng chữ mặc định). Ô nào chữ hiện thật còn giọng bảo tàng
+   được đánh dấu. Ví dụ: `poster.kicker` (mặc định "Bảo tàng") là dòng nhỏ trên tên đơn vị ở màn đầu.
+
+Thứ tự app lấy chữ: `ui[ngôn ngữ]` → `ui[ngôn ngữ mặc định]` → chữ gài sẵn trong app → tên khóa.
+App chỉ tải gói khi `bundleVersion` đổi (mọi route ghi đều tăng). Cấu hình beacon (UUID, lockout,
+zoneChangeConfirmSeconds...) đã có sẵn ở "Cấu hình nâng cao". Chưa làm: sửa `guide`/`about`/`faq`.

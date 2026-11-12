@@ -3224,3 +3224,150 @@ router.post('/welcome-images', upload.fields([{ name: 'main', maxCount: 1 }, { n
     res.status(err.status || 500).json({ error: err.message });
   }
 });
+
+// ==================== CÀI ĐẶT APP (§5.34) ====================
+// Các khối manifest app ĐỌC nhưng trước đây CMS không có chỗ sửa: policies, summary, feedback,
+// menu, farewell, autoSyncHours. Luật khớp manifest_parser.dart của beacon-client:
+//   policies: 3 bool BẮT BUỘC (thiếu là app từ chối cả gói) — luôn ghi đủ cả 3.
+//   summary.closing / feedback.question / feedback.tags[].label: đa ngữ, phải có ngôn ngữ mặc định.
+//   summary.qrBaseUrl: http/https đầy đủ; showQr=true mà không có link thì app tự tắt QR — ở đây chặn luôn.
+//   feedback.scale: stars5 | emoji3 | nps; tối đa 8 lý do, id không trùng.
+//   menu: app mới làm màn Bắt đầu + Hướng dẫn; catalog/map/tours chưa có màn nên giữ nguyên trạng thái.
+//   farewell.autoReturnSeconds 0–300; autoSyncHours 0,5–72 (app tự kẹp vào khoảng này).
+const APP_FEEDBACK_SCALES = ['stars5', 'emoji3', 'nps'];
+const APP_MENU_IDS = ['start', 'guide', 'catalog', 'map', 'tours'];
+
+function docDaNguApp(input, languages, fallbackLanguage, nhan) {
+  if (input === undefined || input === null) return null;
+  if (typeof input !== 'object') throw new HttpError(400, `${nhan}: dữ liệu không hợp lệ`);
+  const out = {};
+  for (const lang of languages) {
+    const v = String(input[lang] ?? '').trim().slice(0, 600);
+    if (v) out[lang] = v;
+  }
+  if (!Object.keys(out).length) return null;
+  if (!out[fallbackLanguage]) throw new HttpError(400, `${nhan}: cần nhập bản ${fallbackLanguage} (ngôn ngữ mặc định) trước`);
+  return out;
+}
+
+router.get('/app-settings', (req, res) => {
+  try {
+    const m = readManifestCached();
+    const { languages, fallbackLanguage } = getLangSetup(m);
+    res.json({
+      languages,
+      fallbackLanguage,
+      languageNames: m.languageNames || {},
+      policies: m.policies || null,
+      summary: m.summary || {},
+      feedback: m.feedback || {},
+      menu: m.menu || null,
+      farewell: m.farewell || {},
+      autoSyncHours: m.autoSyncHours ?? null,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.put('/app-settings', async (req, res) => {
+  try {
+    await withHistory(req, { action: 'app-settings.update', summary: 'Đổi cài đặt app trên điện thoại' }, async () => {
+      const m = readManifest();
+      const { languages, fallbackLanguage } = getLangSetup(m);
+      const b = req.body || {};
+
+      if (b.policies !== undefined) {
+        const p = b.policies || {};
+        for (const k of ['allowLoudspeaker', 'autoplayRequiresHeadphones', 'revisitPlaysWelcome']) {
+          if (typeof p[k] !== 'boolean') throw new HttpError(400, `policies.${k} phải là true hoặc false`);
+        }
+        m.policies = {
+          allowLoudspeaker: p.allowLoudspeaker,
+          autoplayRequiresHeadphones: p.autoplayRequiresHeadphones,
+          revisitPlaysWelcome: p.revisitPlaysWelcome,
+        };
+      }
+
+      if (b.summary !== undefined) {
+        const s = b.summary || {};
+        const next = { ...(m.summary || {}) };
+        const closing = docDaNguApp(s.closing, languages, fallbackLanguage, 'Lời cảm ơn cuối chuyến');
+        if (closing) next.closing = closing; else delete next.closing;
+        next.showFeedback = s.showFeedback !== false;
+        const url = String(s.qrBaseUrl ?? '').trim();
+        if (url) {
+          let u = null;
+          try { u = new URL(url); } catch { u = null; }
+          if (!u || !['http:', 'https:'].includes(u.protocol) || !u.hostname) {
+            throw new HttpError(400, 'Link mã QR phải là địa chỉ đầy đủ bắt đầu bằng http:// hoặc https://');
+          }
+          next.qrBaseUrl = url;
+        } else {
+          delete next.qrBaseUrl;
+        }
+        next.showQr = s.showQr === true;
+        if (next.showQr && !next.qrBaseUrl) throw new HttpError(400, 'Bật mã QR thì phải nhập link cho mã QR');
+        m.summary = next;
+      }
+
+      if (b.feedback !== undefined) {
+        const f = b.feedback || {};
+        const next = { ...(m.feedback || {}) };
+        next.scale = APP_FEEDBACK_SCALES.includes(f.scale) ? f.scale : 'stars5';
+        const q = docDaNguApp(f.question, languages, fallbackLanguage, 'Câu hỏi góp ý');
+        if (q) next.question = q; else delete next.question;
+        const tags = Array.isArray(f.tags) ? f.tags : [];
+        if (tags.length > 8) throw new HttpError(400, 'Tối đa 8 lý do góp ý');
+        const seen = new Set();
+        next.tags = tags.map((t, i) => {
+          const id = String(t?.id || '').trim();
+          if (!/^[a-z0-9_-]{1,32}$/.test(id)) throw new HttpError(400, `Lý do #${i + 1}: mã "${id}" không hợp lệ`);
+          if (seen.has(id)) throw new HttpError(400, `Lý do #${i + 1}: mã "${id}" bị trùng`);
+          seen.add(id);
+          const label = docDaNguApp(t?.label, languages, fallbackLanguage, `Lý do #${i + 1}`);
+          if (!label) throw new HttpError(400, `Lý do #${i + 1} chưa có tên`);
+          return { id, label };
+        });
+        if (!next.tags.length) delete next.tags;
+        m.feedback = next;
+      }
+
+      if (b.menu !== undefined) {
+        const cur = {};
+        for (const e of Array.isArray(m.menu?.entries) ? m.menu.entries : []) {
+          if (e && APP_MENU_IDS.includes(e.id) && !(e.id in cur)) cur[e.id] = e.enabled !== false;
+        }
+        const guideOn = b.menu?.guide !== false;
+        m.menu = {
+          entries: APP_MENU_IDS.map((id) => ({
+            id,
+            enabled: id === 'start' ? true : id === 'guide' ? guideOn : (cur[id] ?? false),
+          })),
+        };
+      }
+
+      if (b.farewellAutoReturnSeconds !== undefined) {
+        const n = Number(b.farewellAutoReturnSeconds === '' ? 0 : b.farewellAutoReturnSeconds);
+        if (!Number.isFinite(n) || n < 0 || n > 300) throw new HttpError(400, 'Thời gian tự quay về phải từ 0 đến 300 giây');
+        m.farewell = { ...(m.farewell || {}), autoReturnSeconds: Math.round(n) };
+      }
+
+      if (b.autoSyncHours !== undefined) {
+        if (b.autoSyncHours === '' || b.autoSyncHours === null) {
+          delete m.autoSyncHours;
+        } else {
+          const n = Number(b.autoSyncHours);
+          if (!Number.isFinite(n) || n < 0.5 || n > 72) throw new HttpError(400, 'Chu kỳ tự đồng bộ phải từ 0,5 đến 72 giờ');
+          m.autoSyncHours = n;
+        }
+      }
+
+      bumpVersion(m);
+      writeManifest(m);
+      res.json({ ok: true, bundleVersion: m.bundleVersion });
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ error: err.message });
+  }
+});
